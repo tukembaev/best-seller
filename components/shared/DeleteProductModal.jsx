@@ -79,3 +79,5 @@ export default function DeleteProductModal({ isOpen, onClose, product, onProduct
         </div>
     )
 }
+
+

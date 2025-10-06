@@ -95,3 +95,5 @@ export default function EditPriceModal({ isOpen, onClose, product, onPriceUpdate
         </div>
     )
 }
+
+
