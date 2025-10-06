@@ -1,0 +1,239 @@
+'use client'
+import { assets } from "@/assets/assets"
+import Image from "next/image"
+import { useState, useEffect } from "react"
+import { toast } from "react-hot-toast"
+import { createProduct } from "@/app/actions/productActions"
+import { getBrands } from "@/app/actions/brandActions"
+import { COLLECTION_OPTIONS, CASE_MATERIAL_OPTIONS, CASE_SIZE_OPTIONS, STRAP_MATERIAL_OPTIONS, WATER_RESISTANCE_OPTIONS } from "@/shared/watchOptions"
+
+export default function StoreAddProduct() {
+
+    const categories = ['luxury', 'mid-range', 'budget', 'sports', 'vintage', 'smart']
+
+    const [images, setImages] = useState({ 1: null, 2: null, 3: null, 4: null })
+    const [productInfo, setProductInfo] = useState({
+        name: "",
+        description: "",
+        mrp: 0,
+        price: 0,
+        category: "",
+        stock: 0,
+        brandId: "",
+        collection: "",
+        mechanism: "",
+        gender: "",
+        caseSize: "",
+        caseMaterial: "",
+        strapMaterial: "",
+        waterResistance: "",
+    })
+    const [brands, setBrands] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        const fetchBrands = async () => {
+            const result = await getBrands()
+            if (result.success) {
+                setBrands(result.brands)
+            }
+        }
+        fetchBrands()
+    }, [])
+
+    const onChangeHandler = (e) => {
+        setProductInfo({ ...productInfo, [e.target.name]: e.target.value })
+    }
+
+    const onSubmitHandler = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        
+        const formData = new FormData()
+        formData.append('name', productInfo.name)
+        formData.append('description', productInfo.description)
+        formData.append('mrp', String(productInfo.mrp))
+        formData.append('price', String(productInfo.price))
+        formData.append('category', productInfo.category)
+        formData.append('stock', String(productInfo.stock))
+        formData.append('brandId', productInfo.brandId)
+        // spec fields
+        formData.append('collection', productInfo.collection)
+        formData.append('mechanism', productInfo.mechanism)
+        formData.append('gender', productInfo.gender)
+        formData.append('caseSize', productInfo.caseSize)
+        formData.append('caseMaterial', productInfo.caseMaterial)
+        formData.append('strapMaterial', productInfo.strapMaterial)
+        formData.append('waterResistance', productInfo.waterResistance)
+        
+        // Add images info
+        const imageFiles = Object.values(images).filter(img => img !== null)
+        if (imageFiles.length > 0) {
+            formData.append('imageCount', imageFiles.length.toString())
+            imageFiles.forEach((file, idx) => {
+                formData.append(`image${idx + 1}`, file)
+            })
+        }
+
+        const result = await createProduct(formData)
+        
+        if (result.success) {
+            toast.success('Product added successfully!')
+            // Reset form
+            setProductInfo({
+                name: "",
+                description: "",
+                mrp: 0,
+                price: 0,
+                category: "",
+                stock: 0,
+                brandId: "",
+                collection: "",
+                mechanism: "",
+                gender: "",
+                caseSize: "",
+                caseMaterial: "",
+                strapMaterial: "",
+                waterResistance: "",
+            })
+        } else {
+            toast.error(result.error || 'Failed to add product')
+        }
+        
+        setLoading(false)
+    }
+
+
+    return (
+        <form onSubmit={onSubmitHandler} className="text-slate-500 mb-28">
+            <h1 className="text-2xl">Add New <span className="text-slate-800 font-medium">Watch</span></h1>
+            <p className="mt-7">Product Images</p>
+
+            <div htmlFor="" className="flex gap-3 mt-4">
+                {Object.keys(images).map((key) => (
+                    <label key={key} htmlFor={`images${key}`}>
+                        <Image width={300} height={300} className='h-15 w-auto border border-slate-200 rounded cursor-pointer' src={images[key] ? URL.createObjectURL(images[key]) : assets.upload_area} alt="" />
+                        <input type="file" accept='image/*' id={`images${key}`} onChange={e => setImages({ ...images, [key]: e.target.files[0] })} hidden />
+                    </label>
+                ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Watch Name
+                    <input type="text" name="name" onChange={onChangeHandler} value={productInfo.name} placeholder="Enter watch name" className="w-full p-2 px-4 outline-none border border-slate-200 rounded" required />
+                </label>
+
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Brand
+                    <select name="brandId" onChange={onChangeHandler} value={productInfo.brandId} className="w-full p-2 px-4 outline-none border border-slate-200 rounded" required>
+                        <option value="">Select a brand</option>
+                        {brands.map((brand) => (
+                            <option key={brand.id} value={brand.id}>{brand.name}</option>
+                        ))}
+                    </select>
+                </label>
+            </div>
+
+            <label htmlFor="" className="flex flex-col gap-2 my-6">
+                Description
+                <textarea name="description" onChange={onChangeHandler} value={productInfo.description} placeholder="Enter watch description" rows={4} className="w-full max-w-2xl p-2 px-4 outline-none border border-slate-200 rounded resize-none" required />
+            </label>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Actual Price ($)
+                    <input type="number" name="mrp" onChange={onChangeHandler} value={productInfo.mrp} placeholder="0" className="w-full p-2 px-4 outline-none border border-slate-200 rounded" required />
+                </label>
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Offer Price ($)
+                    <input type="number" name="price" onChange={onChangeHandler} value={productInfo.price} placeholder="0" className="w-full p-2 px-4 outline-none border border-slate-200 rounded" required />
+                </label>
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Stock Quantity
+                    <input type="number" name="stock" onChange={onChangeHandler} value={productInfo.stock} placeholder="0" className="w-full p-2 px-4 outline-none border border-slate-200 rounded" required />
+                </label>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <select name="category" onChange={onChangeHandler} value={productInfo.category} className="w-full p-2 px-4 outline-none border border-slate-200 rounded" required>
+                    <option value="">Select a category</option>
+                    {categories.map((category) => (
+                        <option key={category} value={category}>{category}</option>
+                    ))}
+                </select>
+
+                <select name="mechanism" onChange={onChangeHandler} value={productInfo.mechanism} className="w-full p-2 px-4 outline-none border border-slate-200 rounded">
+                    <option value="">Select movement type</option>
+                    <option value="Automatic">Automatic</option>
+                    <option value="Manual Winding">Manual Winding</option>
+                    <option value="Quartz">Quartz</option>
+                    <option value="Solar">Solar</option>
+                </select>
+            </div>
+
+            <h3 className="text-lg font-medium mt-8 mb-4">Watch Specifications</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Collection
+                    <input type="text" name="collection" onChange={onChangeHandler} value={productInfo.collection} placeholder="e.g., Submariner" className="w-full p-2 px-4 outline-none border border-slate-200 rounded" />
+                </label>
+
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Gender
+                    <select name="gender" onChange={onChangeHandler} value={productInfo.gender} className="w-full p-2 px-4 outline-none border border-slate-200 rounded">
+                        <option value="">Select gender</option>
+                        <option value="Men">Men</option>
+                        <option value="Women">Women</option>
+                        <option value="Unisex">Unisex</option>
+                    </select>
+                </label>
+
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Case Size
+                    <select name="caseSize" onChange={onChangeHandler} value={productInfo.caseSize} className="w-full p-2 px-4 outline-none border border-slate-200 rounded">
+                        <option value="">Select case size</option>
+                        {CASE_SIZE_OPTIONS.map(opt => (
+                            <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                    </select>
+                </label>
+
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Case Material
+                    <select name="caseMaterial" onChange={onChangeHandler} value={productInfo.caseMaterial} className="w-full p-2 px-4 outline-none border border-slate-200 rounded">
+                        <option value="">Select case material</option>
+                        {CASE_MATERIAL_OPTIONS.map(opt => (
+                            <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                    </select>
+                </label>
+
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Strap Material
+                    <select name="strapMaterial" onChange={onChangeHandler} value={productInfo.strapMaterial} className="w-full p-2 px-4 outline-none border border-slate-200 rounded">
+                        <option value="">Select strap material</option>
+                        {STRAP_MATERIAL_OPTIONS.map(opt => (
+                            <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                    </select>
+                </label>
+
+                <label htmlFor="" className="flex flex-col gap-2">
+                    Water Resistance
+                    <select name="waterResistance" onChange={onChangeHandler} value={productInfo.waterResistance} className="w-full p-2 px-4 outline-none border border-slate-200 rounded">
+                        <option value="">Select water resistance</option>
+                        {WATER_RESISTANCE_OPTIONS.map(opt => (
+                            <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                    </select>
+                </label>
+            </div>
+
+            <button disabled={loading} className="bg-slate-800 text-white px-8 mt-8 py-3 hover:bg-slate-900 rounded transition">
+                {loading ? 'Adding Product...' : 'Add Watch'}
+            </button>
+        </form>
+    )
+}

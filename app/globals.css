@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@layer components {
+    @keyframes marqueeScroll {
+        0% {
+            transform: translateX(0%);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+}
+
+@layer base {
+    button {
+        cursor: pointer;
+    }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Map2GIS widget protection */
+#dg-widget {
+    width: 100% !important;
+    height: 400px !important;
+    max-height: 400px !important;
+    max-width: 100% !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+#dg-widget iframe {
+    width: 100% !important;
+    height: 400px !important;
+    max-height: 400px !important;
+    max-width: 100% !important;
+    position: relative !important;
+    border: none !important;
+}
