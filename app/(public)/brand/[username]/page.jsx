@@ -1,17 +1,17 @@
 import ProductCard from "@/components/product/ProductCard"
-import { MailIcon, MapPinIcon } from "lucide-react"
-import Image from "next/image"
 import { getBrandBySlug } from "@/lib/queries/products"
+import Image from "next/image"
 import { notFound } from "next/navigation"
 
 export default async function BrandPage({ params }) {
-    const resolvedParams = await params;
+    const resolvedParams  = await params;
     const { username } = resolvedParams; // This is actually the brand slug
     
     const brand = await getBrandBySlug(username);
     
     if (!brand) {
         notFound();
+
     }
 
     return (
@@ -23,7 +23,7 @@ export default async function BrandPage({ params }) {
                         src={brand.logo}
                         alt={brand.name}
                         className="size-32 sm:size-38 border-2 border-slate-100 rounded-md object-contain"
-                        width={200}
+                        width={200}O
                         height={200}
                     />
                 )}

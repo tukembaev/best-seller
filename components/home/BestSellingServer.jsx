@@ -15,7 +15,7 @@ export default function BestSellingServer() {
   return (
     <div className='px-6 my-30 max-w-6xl mx-auto'>
       <Title title={'Best Selling'} description={`Showing ${products.length} best selling products`} href='/shop' buttonLabel={'View more'} />
-      <div className='mt-12 grid grid-cols-2 sm:flex flex-wrap gap-6 xl:gap-12'>
+      <div className='mt-12 grid gap-6 xl:ml-6 mb-32 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]'>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

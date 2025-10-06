@@ -240,3 +240,102 @@ export async function updatePrice(productId, newPrice) {
     return { success: false, error: error.message }
   }
 }
+
+export async function updateProductFull(formData) {
+  try {
+    const productId = formData.get('productId')
+    const name = formData.get('name')
+    const description = formData.get('description')
+    const mrp = parseFloat(formData.get('mrp'))
+    const price = parseFloat(formData.get('price'))
+    const category = formData.get('category')
+    const stock = parseInt(formData.get('stock')) || 0
+    const brandId = formData.get('brandId') && formData.get('brandId').trim() !== '' ? formData.get('brandId') : null
+    
+    // Watch characteristics as individual fields
+    const collection = formData.get('collection') || null
+    const mechanism = formData.get('mechanism') || null
+    const gender = formData.get('gender') || null
+    const caseSize = formData.get('caseSize') || null
+    const caseMaterial = formData.get('caseMaterial') || null
+    const strapMaterial = formData.get('strapMaterial') || null
+    const waterResistance = formData.get('waterResistance') || null
+
+    // Handle new images
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'products')
+    await fs.mkdir(uploadDir, { recursive: true })
+
+    const imageCount = parseInt(formData.get('imageCount')) || 0
+    const existingImageCount = parseInt(formData.get('existingImageCount')) || 0
+    const newImages = []
+    const existingImages = []
+
+    // Process new uploaded images
+    for (let i = 1; i <= Math.min(imageCount, 4); i++) {
+      const file = formData.get(`image${i}`)
+      if (file && typeof file === 'object' && 'arrayBuffer' in file) {
+        const buffer = Buffer.from(await file.arrayBuffer())
+        const ext = (file.name?.split('.').pop() || 'png').toLowerCase()
+        const filename = `${Date.now()}_${i}.${ext}`
+        const filePath = path.join(uploadDir, filename)
+        await fs.writeFile(filePath, buffer)
+        newImages.push(`/uploads/products/${filename}`)
+      }
+    }
+
+    // Process existing images
+    for (let i = 1; i <= existingImageCount; i++) {
+      const existingImage = formData.get(`existingImage${i}`)
+      if (existingImage) {
+        existingImages.push(existingImage)
+      }
+    }
+
+    // Combine existing and new images
+    const allImages = [...existingImages, ...newImages]
+
+    // Валидация обязательных полей
+    if (!name || !description || !category || isNaN(mrp) || isNaN(price)) {
+      return { success: false, error: 'Missing or invalid required fields' }
+    }
+
+    // Validate brandId if provided
+    if (brandId) {
+      const brandExists = await prisma.brand.findUnique({
+        where: { id: brandId }
+      })
+      if (!brandExists) {
+        return { success: false, error: 'Selected brand does not exist' }
+      }
+    }
+    
+    const product = await prisma.product.update({
+      where: { id: productId },
+      data: {
+        name,
+        description,
+        mrp,
+        price,
+        category,
+        stock,
+        brandId,
+        images: allImages,
+        // Watch characteristics
+        collection,
+        mechanism,
+        gender,
+        caseSize,
+        caseMaterial,
+        strapMaterial,
+        waterResistance,
+      }
+    })
+
+    revalidatePath('/store/manage-product')
+    revalidatePath(`/store/edit-product/${productId}`)
+    return { success: true, product }
+  } catch (error) {
+    console.error('Error updating product:', error)
+    return { success: false, error: error.message }
+  }
+}

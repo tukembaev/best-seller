@@ -6,6 +6,8 @@ import { toast } from "react-hot-toast"
 import { createProduct } from "@/app/actions/productActions"
 import { getBrands } from "@/app/actions/brandActions"
 import { COLLECTION_OPTIONS, CASE_MATERIAL_OPTIONS, CASE_SIZE_OPTIONS, STRAP_MATERIAL_OPTIONS, WATER_RESISTANCE_OPTIONS } from "@/shared/watchOptions"
+import TemplateModal from "@/components/shared/TemplateModal"
+import TemplateTabs from "@/components/shared/TemplateTabs"
 
 export default function StoreAddProduct() {
 
@@ -30,6 +32,8 @@ export default function StoreAddProduct() {
     })
     const [brands, setBrands] = useState([])
     const [loading, setLoading] = useState(false)
+    const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false)
+    const [selectedTemplate, setSelectedTemplate] = useState(null)
 
     useEffect(() => {
         const fetchBrands = async () => {
@@ -43,6 +47,40 @@ export default function StoreAddProduct() {
 
     const onChangeHandler = (e) => {
         setProductInfo({ ...productInfo, [e.target.name]: e.target.value })
+    }
+
+    const handleTemplateSelect = (template) => {
+        setSelectedTemplate(template)
+        
+        // Если template равен null, сбрасываем только поля спецификации
+        if (template === null) {
+            setProductInfo({
+                ...productInfo,
+                collection: "",
+                mechanism: "",
+                gender: "",
+                caseSize: "",
+                caseMaterial: "",
+                strapMaterial: "",
+                waterResistance: "",
+            })
+        } else {
+            // Применяем шаблон
+            setProductInfo({
+                ...productInfo,
+                collection: template.collection || "",
+                mechanism: template.mechanism || "",
+                gender: template.gender || "",
+                caseSize: template.caseSize || "",
+                caseMaterial: template.caseMaterial || "",
+                strapMaterial: template.strapMaterial || "",
+                waterResistance: template.waterResistance || "",
+            })
+        }
+    }
+
+    const handleTemplateCreated = (template) => {
+        handleTemplateSelect(template)
     }
 
     const onSubmitHandler = async (e) => {
@@ -105,6 +143,7 @@ export default function StoreAddProduct() {
 
 
     return (
+        <>
         <form onSubmit={onSubmitHandler} className="text-slate-500 mb-28">
             <h1 className="text-2xl">Add New <span className="text-slate-800 font-medium">Watch</span></h1>
             <p className="mt-7">Product Images</p>
@@ -116,6 +155,35 @@ export default function StoreAddProduct() {
                         <input type="file" accept='image/*' id={`images${key}`} onChange={e => setImages({ ...images, [key]: e.target.files[0] })} hidden />
                     </label>
                 ))}
+            </div>
+
+            {/* Templates Section */}
+            <div className="mt-8">
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-medium">Templates</h3>
+                    <button
+                        type="button"
+                        onClick={() => setIsTemplateModalOpen(true)}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition text-sm"
+                    >
+                        Add Template
+                    </button>
+                </div>
+                
+                <div className="mb-4">
+                    <TemplateTabs 
+                        onTemplateSelect={handleTemplateSelect}
+                        selectedTemplate={selectedTemplate}
+                    />
+                </div>
+                
+                {selectedTemplate && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
+                        <p className="text-sm text-blue-800">
+                            <strong>Selected template:</strong> {selectedTemplate.name}
+                        </p>
+                    </div>
+                )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
@@ -235,5 +303,13 @@ export default function StoreAddProduct() {
                 {loading ? 'Adding Product...' : 'Add Watch'}
             </button>
         </form>
+
+        {/* Template Modal */}
+        <TemplateModal
+            isOpen={isTemplateModalOpen}
+            onClose={() => setIsTemplateModalOpen(false)}
+            onTemplateCreated={handleTemplateCreated}
+        />
+    </>
     )
 }

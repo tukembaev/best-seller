@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma.js"
 import bcrypt from "bcryptjs"
+import { cookies } from 'next/headers'
 
 export async function authenticateUser(email, password) {
   try {
@@ -57,6 +58,16 @@ export async function loginUser(formData) {
 
     // Return user data without password
     const { password: _, ...userWithoutPassword } = user
+    
+    // Set cookie for server-side authentication
+    const cookieStore = cookies()
+    cookieStore.set('authUser', JSON.stringify(userWithoutPassword), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
+    })
+    
     return { success: true, user: userWithoutPassword }
   } catch (error) {
     console.error('Error authenticating user:', error)
@@ -86,5 +97,16 @@ export async function getUserById(userId) {
   } catch (error) {
     console.error('Error fetching user:', error)
     return { success: false, error: 'Failed to fetch user' }
+  }
+}
+
+export async function logoutUser() {
+  try {
+    const cookieStore = cookies()
+    cookieStore.delete('authUser')
+    return { success: true }
+  } catch (error) {
+    console.error('Error logging out user:', error)
+    return { success: false, error: 'Logout failed' }
   }
 }

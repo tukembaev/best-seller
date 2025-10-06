@@ -8,18 +8,36 @@ const Counter = ({ productId }) => {
 
     const dispatch = useDispatch();
 
-    const addToCartHandler = () => {
+    const addToCartHandler = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
         dispatch(addToCart({ productId }))
     }
 
-    const removeFromCartHandler = () => {
+    const removeFromCartHandler = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
         dispatch(removeFromCart({ productId }))
     }
 
     return (
-        <div className="inline-flex items-center gap-1 sm:gap-3 px-3 py-1 rounded border border-slate-200 max-sm:text-sm text-slate-600">
+        <div 
+            className="inline-flex items-center gap-1 sm:gap-3 px-3 py-1 rounded border border-slate-200 max-sm:text-sm text-slate-600"
+            onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+            }}
+            onMouseDown={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+            }}
+        >
             <button onClick={removeFromCartHandler} className="p-1 select-none">-</button>
-            <p className="p-1">{cartItems[productId]}</p>
+            <p 
+                className="p-1 select-none cursor-default pointer-events-none" 
+            >
+                {cartItems[productId]}
+            </p>
             <button onClick={addToCartHandler} className="p-1 select-none">+</button>
         </div>
     )

@@ -393,9 +393,8 @@ async function main() {
     },
   })
 
-  // Получаем продукты и магазин для создания заказов
+  // Получаем продукты для создания заказов
   const products = await prisma.product.findMany()
-  const store = await prisma.store.findFirst()
 
   // Создаём 5 образцовых заказов с разными статусами
   const ordersData = [
@@ -406,7 +405,6 @@ async function main() {
       status: "DELIVERED",
       trackingStatus: "DELIVERED",
       userId: "user_1",
-      storeId: store.id,
       addressId: "addr_1",
       isPaid: true,
       paymentMethod: "STRIPE",
@@ -421,7 +419,6 @@ async function main() {
       status: "IN_TRANSIT",
       trackingStatus: "IN_TRANSIT",
       userId: "user_2",
-      storeId: store.id,
       addressId: "addr_2",
       isPaid: true,
       paymentMethod: "STRIPE",
@@ -436,7 +433,6 @@ async function main() {
       status: "ON_SORTING_CENTER",
       trackingStatus: "ON_SORTING_CENTER",
       userId: "user_3",
-      storeId: store.id,
       addressId: "addr_1",
       isPaid: false,
       paymentMethod: "COD",
@@ -451,7 +447,6 @@ async function main() {
       status: "ON_THE_WAY",
       trackingStatus: "ON_THE_WAY",
       userId: "user_4",
-      storeId: store.id,
       addressId: "addr_2",
       isPaid: true,
       paymentMethod: "PAYPAL",
@@ -466,7 +461,6 @@ async function main() {
       status: "ORDER_PLACED",
       trackingStatus: "ORDER_RECEIVED",
       userId: "user_5",
-      storeId: store.id,
       addressId: "addr_1",
       isPaid: false,
       paymentMethod: "COD",

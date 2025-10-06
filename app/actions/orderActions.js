@@ -1,12 +1,12 @@
 'use server'
 
-import { getStoreOrders, getOrderById, updateOrderStatus, getStoreOrderStats, getUserOrders } from '@/lib/queries/orders'
+import { getStoreOrders, getOrderById, updateOrderStatus, getStoreOrderStats, getUserOrders, createOrder } from '@/lib/queries/orders'
 import { getNextTrackingStatus } from '@/lib/utils/orderHelpers'
 
-export async function fetchStoreOrders(storeId) {
+export async function fetchStoreOrders() {
   try {
-    console.log('Fetching orders for store:', storeId)
-    const orders = await getStoreOrders(storeId)
+    console.log('Fetching all orders')
+    const orders = await getStoreOrders()
     console.log('Found orders:', orders.length)
     return {
       success: true,
@@ -61,9 +61,9 @@ export async function updateOrder(orderId, status, trackingStatus = null) {
   }
 }
 
-export async function fetchStoreOrderStats(storeId) {
+export async function fetchStoreOrderStats() {
   try {
-    const stats = await getStoreOrderStats(storeId)
+    const stats = await getStoreOrderStats()
     return {
       success: true,
       stats
@@ -89,6 +89,22 @@ export async function fetchUserOrders(userId) {
     return {
       success: false,
       error: 'Failed to fetch user orders'
+    }
+  }
+}
+
+export async function placeOrder(orderData) {
+  try {
+    const order = await createOrder(orderData)
+    return {
+      success: true,
+      order
+    }
+  } catch (error) {
+    console.error('Error placing order:', error)
+    return {
+      success: false,
+      error: 'Failed to place order'
     }
   }
 }

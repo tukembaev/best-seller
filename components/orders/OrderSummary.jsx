@@ -1,18 +1,23 @@
 import { PlusIcon, SquarePenIcon, XIcon } from 'lucide-react';
 import React, { useState } from 'react'
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import AddressModal from '../shared/AddressModal';
+import { placeOrder } from '@/app/actions/orderActions';
+import { clearCart } from '@/lib/features/cart/cartSlice';
 
 const OrderSummary = ({ totalPrice, items }) => {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$';
 
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const addressList = useSelector(state => state.address.list);
+    const user = useSelector(state => state.auth.user);
+    const cartItems = useSelector(state => state.cart.cartItems);
 
     const [paymentMethod, setPaymentMethod] = useState('COD');
     const [selectedAddress, setSelectedAddress] = useState(null);
@@ -28,7 +33,59 @@ const OrderSummary = ({ totalPrice, items }) => {
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
 
-        router.push('/orders')
+        // Check if user is logged in
+        if (!user) {
+            toast.error('Please login to place an order');
+            router.push('/login');
+            return;
+        }
+
+        // Check if address is selected
+        if (!selectedAddress) {
+            toast.error('Please select a delivery address');
+            return;
+        }
+
+        // For now, use the dummy address ID if it's not a real address
+        const addressId = selectedAddress.id || 'addr_1';
+
+        // Check if cart has items
+        if (Object.keys(cartItems).length === 0) {
+            toast.error('Your cart is empty');
+            return;
+        }
+
+        try {
+            // Prepare order items from cart
+            const orderItems = items.map(item => ({
+                productId: item.id,
+                quantity: item.quantity,
+                price: item.price
+            }));
+
+            // Prepare order data
+            const orderData = {
+                userId: user.id,
+                addressId: addressId,
+                total: coupon ? (totalPrice - (coupon.discount / 100 * totalPrice)) : totalPrice,
+                paymentMethod: paymentMethod,
+                orderItems: orderItems,
+                coupon: coupon
+            };
+
+            const result = await placeOrder(orderData);
+
+            if (result.success) {
+                toast.success('Order placed successfully!');
+                dispatch(clearCart());
+                router.push('/orders');
+            } else {
+                toast.error(result.error || 'Failed to place order');
+            }
+        } catch (error) {
+            console.error('Error placing order:', error);
+            toast.error('Failed to place order');
+        }
     }
 
     return (

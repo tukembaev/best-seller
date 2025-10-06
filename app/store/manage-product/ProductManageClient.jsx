@@ -5,10 +5,14 @@ import { toast } from "react-hot-toast"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { toggleStock, updatePrice, increaseStock, reduceStock } from "@/app/actions/productActions"
+import EditPriceModal from "@/components/shared/EditPriceModal"
+import DeleteProductModal from "@/components/shared/DeleteProductModal"
 
 export function ProductManageClient({ products, currency }) {
     const [localProducts, setLocalProducts] = useState(products)
     const router = useRouter()
+    const [editPriceModal, setEditPriceModal] = useState({ isOpen: false, product: null })
+    const [deleteModal, setDeleteModal] = useState({ isOpen: false, product: null })
 
     const handleToggleStock = async (productId) => {
         const result = await toggleStock(productId)
@@ -56,7 +60,34 @@ export function ProductManageClient({ products, currency }) {
         }
     }
 
+    const handlePriceUpdated = (productId, newPrice) => {
+        setLocalProducts(prev => prev.map(p => 
+            p.id === productId ? { ...p, price: newPrice } : p
+        ))
+    }
+
+    const handleProductDeleted = (productId) => {
+        setLocalProducts(prev => prev.filter(p => p.id !== productId))
+    }
+
+    const openEditPriceModal = (product) => {
+        setEditPriceModal({ isOpen: true, product })
+    }
+
+    const closeEditPriceModal = () => {
+        setEditPriceModal({ isOpen: false, product: null })
+    }
+
+    const openDeleteModal = (product) => {
+        setDeleteModal({ isOpen: true, product })
+    }
+
+    const closeDeleteModal = () => {
+        setDeleteModal({ isOpen: false, product: null })
+    }
+
     return (
+        <>
         <table className="w-full max-w-6xl text-left ring ring-slate-200 rounded overflow-hidden text-sm">
             <thead className="bg-slate-50 text-gray-700 uppercase tracking-wider">
                 <tr>
@@ -74,12 +105,27 @@ export function ProductManageClient({ products, currency }) {
                         <td className="px-4 py-3">
                             <div className="flex gap-2 items-center">
                                 {product.images && product.images[0] ? (
-                                    <Image width={40} height={40} className='p-1 shadow rounded cursor-pointer' src={product.images[0]} alt={product.name} />
+                                    <Image 
+                                        width={40} 
+                                        height={40} 
+                                        className='p-1 shadow rounded cursor-pointer hover:shadow-md transition-shadow' 
+                                        src={product.images[0]} 
+                                        alt={product.name}
+                                        onClick={() => router.push(`/store/edit-product/${product.id}`)}
+                                    />
                                 ) : (
-                                    <div className='p-1 shadow rounded bg-slate-100 w-10 h-10' />
+                                    <div 
+                                        className='p-1 shadow rounded bg-slate-100 w-10 h-10 cursor-pointer hover:shadow-md transition-shadow'
+                                        onClick={() => router.push(`/store/edit-product/${product.id}`)}
+                                    />
                                 )}
                                 <div>
-                                    <div className="font-medium">{product.name}</div>
+                                    <div 
+                                        className="font-medium cursor-pointer hover:text-blue-600 transition-colors"
+                                        onClick={() => router.push(`/store/edit-product/${product.id}`)}
+                                    >
+                                        {product.name}
+                                    </div>
                                     <div className="text-xs text-gray-500 hidden sm:block">{product.brand?.name}</div>
                                 </div>
                             </div>
@@ -123,28 +169,18 @@ export function ProductManageClient({ products, currency }) {
                             </label>
                         </td>
                         <td className="px-4 py-3">
-                            <div className="flex gap-2">
-                                <input
-                                    type="number"
-                                    placeholder="New price"
-                                    className="w-20 text-xs p-1 border rounded"
-                                    onKeyPress={(e) => {
-                                        if (e.key === 'Enter') {
-                                            handleUpdatePrice(product.id, e.target.value)
-                                            e.target.value = ''
-                                        }
-                                    }}
-                                />
+                            <div className="flex flex-col gap-2">
                                 <button 
-                                    onClick={() => {
-                                        const newPrice = prompt('Enter new price:', product.price)
-                                        if (newPrice && !isNaN(newPrice)) {
-                                            handleUpdatePrice(product.id, newPrice)
-                                        }
-                                    }}
-                                    className="text-xs bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded"
+                                    onClick={() => openEditPriceModal(product)}
+                                    className="text-xs bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded w-full"
                                 >
                                     Edit Price
+                                </button>
+                                <button 
+                                    onClick={() => openDeleteModal(product)}
+                                    className="text-xs bg-red-100 hover:bg-red-200 px-2 py-1 rounded w-full"
+                                >
+                                    Delete
                                 </button>
                             </div>
                         </td>
@@ -158,5 +194,22 @@ export function ProductManageClient({ products, currency }) {
                 )}
             </tbody>
         </table>
+
+        {/* Edit Price Modal */}
+        <EditPriceModal
+            isOpen={editPriceModal.isOpen}
+            onClose={closeEditPriceModal}
+            product={editPriceModal.product}
+            onPriceUpdated={handlePriceUpdated}
+        />
+
+        {/* Delete Product Modal */}
+        <DeleteProductModal
+            isOpen={deleteModal.isOpen}
+            onClose={closeDeleteModal}
+            product={deleteModal.product}
+            onProductDeleted={handleProductDeleted}
+        />
+    </>
     )
 }

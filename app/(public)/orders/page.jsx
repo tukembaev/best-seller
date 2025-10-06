@@ -1,8 +1,8 @@
 'use client'
 import PageTitle from "@/components/shared/PageTitle"
 import { useEffect, useState } from "react";
-import OrderItem from "@/components/OrderItem";
-import { getUserOrders } from "@/app/actions/orderActions";
+import OrderItem from "@/components/orders/OrderItem";
+import { fetchUserOrders } from "@/app/actions/orderActions";
 
 export default function Orders() {
     const [orders, setOrders] = useState([]);
@@ -13,7 +13,7 @@ export default function Orders() {
         const userId = "user_1" // This should come from authentication
         
         const fetchOrders = async () => {
-            const result = await getUserOrders(userId);
+            const result = await fetchUserOrders(userId);
             if (result.success) {
                 setOrders(result.orders || []);
             } else {
