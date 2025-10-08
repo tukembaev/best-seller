@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Price from '@/components/shared/Price'
 
 export default function ProductListPlain() {
 	const [items, setItems] = useState([])
@@ -28,7 +29,7 @@ export default function ProductListPlain() {
 	return (
 		<ul>
 			{items.map((p) => (
-				<li key={p.id}>{p.name} — ${p.price}</li>
+				<li key={p.id}>{p.name} — <Price value={p.price} /></li>
 			))}
 		</ul>
 	)

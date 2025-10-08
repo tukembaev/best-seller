@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { updatePrice } from '@/app/actions/productActions'
+import Price from '@/components/shared/Price'
 
 export default function EditPriceModal({ isOpen, onClose, product, onPriceUpdated }) {
     const [newPrice, setNewPrice] = useState('')
@@ -53,13 +54,13 @@ export default function EditPriceModal({ isOpen, onClose, product, onPriceUpdate
 
                 <div className="mb-4">
                     <p className="text-sm text-gray-600 mb-2">Product: <span className="font-medium">{product.name}</span></p>
-                    <p className="text-sm text-gray-600">Current price: <span className="font-medium">${product.price?.toLocaleString()}</span></p>
+                    <p className="text-sm text-gray-600">Current price: <span className="font-medium"><Price value={product.price} disableTooltip /></span></p>
                 </div>
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="newPrice" className="block text-sm font-medium text-gray-700 mb-2">
-                            New Price ($)
+                            New Price (сом)
                         </label>
                         <input
                             type="number"

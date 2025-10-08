@@ -1,13 +1,15 @@
 'use client'
-import { Search, ShoppingCart, ChevronDown, LogOut, User, ShoppingBasket } from "lucide-react";
+import { Search, ShoppingCart, ChevronDown, LogOut, User, ShoppingBasket, Database } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LanguageSwitcher from "@/components/shared/LanguageSwitcher";
+import Price from "@/components/shared/Price";
 import Image from "next/image";
 import { loginSuccess, logout } from "@/lib/features/auth/authSlice";
 import { logoutUser } from "@/app/actions/authActions";
+import {useTranslations} from 'next-intl'
 
 const Navbar = () => {
 
@@ -21,6 +23,8 @@ const Navbar = () => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const cartCount = useSelector(state => state.cart.total)
+
+    const t = useTranslations('common')
 
     const handleSearch = (e) => {
         e.preventDefault()
@@ -106,15 +110,15 @@ const Navbar = () => {
 
                     {/* Desktop Menu */}
                     <div className="hidden sm:flex items-center gap-4 lg:gap-8 text-slate-600">
-                        <Link href="/">Home</Link>
-                        <Link href="/shop">Shop</Link>
-                        <Link href="/about">About</Link>
-                        <Link href="/store">Store</Link>
-                        <Link href="/contact">Contact</Link>
+                        <Link href="/">{t('nav.home')}</Link>
+                        <Link href="/shop">{t('nav.shop')}</Link>
+                        <Link href="/about">{t('nav.about')}</Link>
+                        {/* <Link href="/store">{t('nav.store')}</Link> */}
+                        <Link href="/contact">{t('nav.contact')}</Link>
 
                         <form onSubmit={handleSearch} className="hidden xl:flex items-center w-xs text-sm gap-2 bg-slate-100 px-4 py-3 rounded-full relative">
                             <Search size={18} className="text-slate-600" />
-                            <input className="w-full bg-transparent outline-none placeholder-slate-600" type="text" placeholder={'Search products...'} value={search} onChange={(e) => setSearch(e.target.value)} onFocus={() => setOpen(true)} />
+                            <input className="w-full bg-transparent outline-none placeholder-slate-600" type="text" placeholder={t('nav.searchPlaceholder')} value={search} onChange={(e) => setSearch(e.target.value)} onFocus={() => setOpen(true)} />
 
                             {open && suggestions.length > 0 && (
                                 <div className="absolute top-12 left-0 right-0 bg-white border border-slate-200 rounded-lg shadow z-30 p-2">
@@ -127,7 +131,7 @@ const Navbar = () => {
                                         >
                                             <Image width={60} height={60} className='rounded-full' src={item.images[0]} alt={item.brand?.name} />
                                             <span className="text-slate-700">{item.brand?.name ? `${item.brand.name} ` : ''}{item.name}</span>
-                                            <span className="ml-auto text-slate-500 text-sm">{item.price} $</span>
+                                            <Price value={item.price} className="ml-auto text-slate-500 text-sm" />
                                         </button>
                                     ))}
                                 </div>
@@ -138,7 +142,7 @@ const Navbar = () => {
 
                         <Link href="/cart" className="relative flex items-center gap-2 text-slate-600">
                             <ShoppingCart size={18} />
-                            Cart
+                            {/* {t('nav.cart')} */}
                             <button className="absolute -top-1 left-3 text-[8px] text-white bg-slate-600 size-3.5 rounded-full">{cartCount}</button>
                         </Link>
                         {user ? (
@@ -164,22 +168,28 @@ const Navbar = () => {
                                                 onClick={() => setDropdownOpen(false)}
                                             >
                                                 <User size={16} className="mr-3" />
-                                                Profile
+                                                {t('nav.profile')}
                                             </Link>
+                                            {user.role === 'seller' && (
+                                                <Link href="/store" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                                    <Database size={16} className="mr-3" />
+                                                    {t('nav.store')}
+                                                </Link>
+                                            )}
                                             <Link 
                                                 href="/orders" 
                                                 className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                                                 onClick={() => setDropdownOpen(false)}
                                             >
                                                 <ShoppingBasket size={16} className="mr-3" />
-                                                My Orders
+                                                {t('nav.orders')}
                                             </Link>
                                             <button 
                                                 onClick={handleLogout}
                                                 className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                                             >
                                                 <LogOut size={16} className="mr-3" />
-                                                Logout
+                                                {t('nav.logout')}
                                             </button>
                                         </div>
                                     </div>
@@ -188,7 +198,7 @@ const Navbar = () => {
                         ) : (
                             <Link href="/login">
                                 <button className="px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
-                                    Login
+                                    {t('nav.login')}
                                 </button>
                             </Link>
                         )}
@@ -202,7 +212,7 @@ const Navbar = () => {
                     <div className="sm:hidden flex items-center gap-2">
                         <LanguageSwitcher />
                         <button className="px-7 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-sm transition text-white rounded-full">
-                            Login
+                            {t('nav.login')}
                         </button>
                     </div>
                 </div>

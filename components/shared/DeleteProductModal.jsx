@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { deleteProduct } from '@/app/actions/productActions'
+import Price from '@/components/shared/Price'
 
 export default function DeleteProductModal({ isOpen, onClose, product, onProductDeleted }) {
     const [loading, setLoading] = useState(false)
@@ -55,7 +56,7 @@ export default function DeleteProductModal({ isOpen, onClose, product, onProduct
                             <span className="font-medium">Brand:</span> {product.brand?.name || 'No Brand'}
                         </p>
                         <p className="text-sm text-gray-600">
-                            <span className="font-medium">Price:</span> ${product.price?.toLocaleString()}
+                            <span className="font-medium">Price:</span> <Price value={product.price} disableTooltip />
                         </p>
                     </div>
                 </div>

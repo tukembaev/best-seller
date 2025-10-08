@@ -89,6 +89,7 @@ async function main() {
             mrp: 12000,
             price: 9990,
             images: ["/assets/product_img1.png"],
+            video: "/IMG_6581.MP4",
             category: "luxury",
             stock: 5,
             spec: {
@@ -107,6 +108,7 @@ async function main() {
             mrp: 15000,
             price: 13990,
             images: ["/assets/product_img5.png"],
+            video: "/IMG_6581.MP4",
             category: "luxury",
             stock: 3,
             spec: {
@@ -139,6 +141,7 @@ async function main() {
             mrp: 8000,
             price: 7290,
             images: ["/assets/product_img2.png"],
+            video: "/IMG_6581.MP4",
             category: "luxury",
             stock: 8,
             spec: {
@@ -153,10 +156,11 @@ async function main() {
           },
           {
             name: "Omega Seamaster",
-            description: "Diver’s watch with co-axial escapement",
+            description: "Diver's watch with co-axial escapement",
             mrp: 7500,
             price: 6890,
             images: ["/assets/product_img6.png"],
+            video: "/IMG_6581.MP4",
             category: "luxury",
             stock: 6,
             spec: {
@@ -189,6 +193,7 @@ async function main() {
             mrp: 350,
             price: 299,
             images: ["/assets/product_img3.png"],
+            video: "/IMG_6581.MP4",
             category: "mid-range",
             stock: 15,
             spec: {
@@ -203,10 +208,11 @@ async function main() {
           },
           {
             name: "Seiko Prospex Diver",
-            description: "Professional diver’s watch with ISO certification",
+            description: "Professional diver's watch with ISO certification",
             mrp: 600,
             price: 499,
             images: ["/assets/product_img7.png"],
+            video: "/IMG_6581.MP4",
             category: "mid-range",
             stock: 12,
             spec: {
@@ -239,6 +245,7 @@ async function main() {
             mrp: 150,
             price: 129,
             images: ["/assets/product_img4.png"],
+            video: "/IMG_6581.MP4",
             category: "budget",
             stock: 25,
             spec: {
@@ -257,6 +264,7 @@ async function main() {
             mrp: 200,
             price: 179,
             images: ["/assets/product_img8.png"],
+            video: "/IMG_6581.MP4",
             category: "budget",
             stock: 18,
             spec: {
@@ -320,6 +328,24 @@ async function main() {
   }
 
   await prisma.user.createMany({ data: testUsers })
+
+  // Создаём продавцов (sellers)
+  const sellerPassword = await bcrypt.hash("password123", 10)
+  const sellers = []
+  
+  for (let i = 1; i <= 5; i++) {
+    sellers.push({
+      id: `seller_${i}`,
+      name: `Seller ${i}`,
+      email: `seller${i}@store.com`,
+      image: "",
+      password: sellerPassword,
+      role: "seller",
+      isMember: true,
+    })
+  }
+  
+  await prisma.user.createMany({ data: sellers })
 
   // Создаём магазин
   await prisma.store.create({

@@ -51,7 +51,7 @@ export default function LoginForm() {
   return (
     <form action={handleSubmit} className="space-y-6">
       <div>
-        <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900 dark:text-gray-100">
+        <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900 ">
           Email address
         </label>
         <div className="mt-2">
@@ -61,14 +61,14 @@ export default function LoginForm() {
             type="email"
             required
             autoComplete="email"
-            className="block w-full rounded-md  px-3 py-1.5 text-base text-gray-900 "
+            className="block w-full rounded-md border border-slate-300 px-3 py-1.5 text-base text-gray-900 "
           />
         </div>
       </div>
 
       <div>
         <div className="flex items-center justify-between">
-          <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900 dark:text-gray-100">
+          <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900 ">
             Password
           </label>
           <div className="text-sm">
@@ -87,7 +87,7 @@ export default function LoginForm() {
             type="password"
             required
             autoComplete="current-password"
-            className="block w-full rounded-md  px-3 py-1.5 text-base text-gray-900 "
+            className="block w-full rounded-md border border-slate-300 px-3 py-1.5 text-base text-gray-900 "
           />
         </div>
       </div>

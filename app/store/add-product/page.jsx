@@ -210,11 +210,11 @@ export default function StoreAddProduct() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <label htmlFor="" className="flex flex-col gap-2">
-                    Actual Price ($)
+                    Actual Price (сом)
                     <input type="number" name="mrp" onChange={onChangeHandler} value={productInfo.mrp} placeholder="0" className="w-full p-2 px-4 outline-none border border-slate-200 rounded" required />
                 </label>
                 <label htmlFor="" className="flex flex-col gap-2">
-                    Offer Price ($)
+                    Offer Price (сом)
                     <input type="number" name="price" onChange={onChangeHandler} value={productInfo.price} placeholder="0" className="w-full p-2 px-4 outline-none border border-slate-200 rounded" required />
                 </label>
                 <label htmlFor="" className="flex flex-col gap-2">

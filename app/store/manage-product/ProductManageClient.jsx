@@ -133,8 +133,8 @@ export function ProductManageClient({ products, currency }) {
                         <td className="px-4 py-3 hidden lg:table-cell">{product.brand?.name || 'No Brand'}</td>
                         <td className="px-4 py-3 hidden md:table-cell">
                             <div className="flex flex-col">
-                                <span className="font-medium">{currency} {product.price?.toLocaleString()}</span>
-                                <span className="text-xs text-gray-500 line-through">{currency} {product.mrp?.toLocaleString()}</span>
+                                <span className="font-medium">{product.price?.toLocaleString()} сом</span>
+                                <span className="text-xs text-gray-500 line-through">{product.mrp?.toLocaleString()} сом</span>
                             </div>
                         </td>
                         <td className="px-4 py-3">

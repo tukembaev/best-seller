@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Price from '@/components/shared/Price';
 
 export default function ItemListTable({ items }) {
   const defaultItems = items || [
@@ -73,9 +74,9 @@ export default function ItemListTable({ items }) {
                     <span>{item.name}</span>
                   </div>
                 </td>
-                <td className="py-3 px-4 text-sm text-gray-700 text-right">${item.basePrice.toFixed(2)}</td>
+                <td className="py-3 px-4 text-sm text-gray-700 text-right"><Price value={item.basePrice} /></td>
                 <td className="py-3 px-4 text-sm text-gray-700 text-right">{item.quantity}</td>
-                <td className="py-3 px-4 text-sm text-gray-700 text-right">${item.total.toFixed(2)}</td>
+                <td className="py-3 px-4 text-sm text-gray-700 text-right"><Price value={item.total} /></td>
               </tr>
             ))}
           </tbody>
@@ -85,7 +86,7 @@ export default function ItemListTable({ items }) {
                 ALL TOTAL
               </td>
               <td className="py-3 px-4 text-sm font-bold text-gray-900 text-right">
-                ${grandTotal.toFixed(2)}
+                <Price value={grandTotal} />
               </td>
             </tr>
           </tfoot>

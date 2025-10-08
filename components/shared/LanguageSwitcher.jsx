@@ -1,7 +1,7 @@
 'use client'
 
 import { Globe } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -11,12 +11,21 @@ const languages = [
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false)
+  const [locale, setLocale] = useState('en')
 
-  const handleLanguageChange = async () => {
+  useEffect(() => {
+    const cookieMatch = document.cookie.match(/(?:^|; )NEXT_LOCALE=([^;]+)/)
+    if (cookieMatch?.[1]) setLocale(decodeURIComponent(cookieMatch[1]))
+  }, [])
+
+  const currentLanguage = useMemo(() => languages.find(l => l.code === locale) || languages[0], [locale])
+
+  const handleLanguageChange = async (code) => {
+    document.cookie = `NEXT_LOCALE=${code}; path=/; max-age=${60 * 60 * 24 * 365}`
     setIsOpen(false)
+    setLocale(code)
+    window.location.reload()
   }
-
-  const currentLanguage = languages[0]
 
   return (
     <div className="relative">
@@ -25,18 +34,17 @@ export default function LanguageSwitcher() {
         className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 hover:text-slate-800 transition-colors"
       >
         <Globe size={16} />
-        <span className="hidden sm:inline">{currentLanguage.flag}</span>
-        <span className="hidden md:inline text-xs">{currentLanguage.name}</span>
+        <span>{currentLanguage.flag}</span>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 min-w-[120px]">
+        <div className="absolute right-0 top-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 min-w-[160px]">
           {languages.map((language) => (
             <button
               key={language.code}
               onClick={() => handleLanguageChange(language.code)}
               className={`w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 transition-colors ${
-                language.code === i18n.language ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                language.code === locale ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
               }`}
             >
               <span>{language.flag}</span>
@@ -46,7 +54,6 @@ export default function LanguageSwitcher() {
         </div>
       )}
 
-      {/* Backdrop to close dropdown */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40"

@@ -3,9 +3,10 @@
 import { addToCart } from "@/lib/features/cart/cartSlice";
 import { StarIcon, TagIcon, EarthIcon, CreditCardIcon, UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import Counter from "../shared/Counter";
+import Price from "@/components/shared/Price";
 import { useDispatch, useSelector } from "react-redux";
 import StockBadge from "@/components/shared/StockBadge";
 import Link from "next/link";
@@ -40,7 +41,7 @@ const ProductDetails = ({ product }) => {
 ]
 
     const productId = product.id;
-    const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$';
+    
 
     const cart = useSelector(state => state.cart.cartItems);
     const dispatch = useDispatch();
@@ -48,11 +49,102 @@ const ProductDetails = ({ product }) => {
     const router = useRouter()
 
     const [mainImage, setMainImage] = useState(product.images[0]);
+    const [isVideoMode, setIsVideoMode] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [posterUrl, setPosterUrl] = useState(null)
+    const videoRef = useRef(null)
     
     // Мемоизируем количество товара в корзине
     const productInCart = useMemo(() => {
         return cart?.[productId] || 0
     }, [cart, productId]);
+
+    const hasVideo = product.video && product.video.trim() !== '';
+    const videoPreview = hasVideo ? product.images[0] : null;
+
+    const handleImageClick = (imageIndex) => {
+        if (imageIndex < product.images.length) {
+            setMainImage(product.images[imageIndex]);
+            setIsVideoMode(false);
+        } else {
+            // Video clicked
+            setIsVideoMode(true);
+        }
+    };
+
+    useEffect(() => {
+        const onFullscreenChange = () => {
+            setIsFullscreen(Boolean(document.fullscreenElement))
+        }
+        document.addEventListener('fullscreenchange', onFullscreenChange)
+        document.addEventListener('webkitfullscreenchange', onFullscreenChange)
+        document.addEventListener('mozfullscreenchange', onFullscreenChange)
+        document.addEventListener('MSFullscreenChange', onFullscreenChange)
+        return () => {
+            document.removeEventListener('fullscreenchange', onFullscreenChange)
+            document.removeEventListener('webkitfullscreenchange', onFullscreenChange)
+            document.removeEventListener('mozfullscreenchange', onFullscreenChange)
+            document.removeEventListener('MSFullscreenChange', onFullscreenChange)
+        }
+    }, [])
+
+    // Generate a poster frame (1s or middle for short videos) to avoid black preview
+    useEffect(() => {
+        if (!hasVideo || !product.video) return
+        let cancelled = false
+        const tempVideo = document.createElement('video')
+        tempVideo.preload = 'auto'
+        tempVideo.crossOrigin = 'anonymous'
+        tempVideo.src = product.video
+        tempVideo.muted = true
+
+        const cleanup = () => {
+            tempVideo.pause()
+            tempVideo.removeAttribute('src')
+            tempVideo.load()
+        }
+
+        const drawFrame = () => {
+            if (cancelled) return
+            const width = tempVideo.videoWidth
+            const height = tempVideo.videoHeight
+            if (!width || !height) return
+            const canvas = document.createElement('canvas')
+            canvas.width = width
+            canvas.height = height
+            const ctx = canvas.getContext('2d')
+            if (!ctx) return
+            ctx.drawImage(tempVideo, 0, 0, width, height)
+            try {
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.86)
+                if (!cancelled) setPosterUrl(dataUrl)
+            } catch (_) {}
+            cleanup()
+        }
+
+        const onLoadedMetadata = () => {
+            const duration = tempVideo.duration || 0
+            const targetTime = duration >= 2 ? 1 : Math.max(0, duration / 2)
+            const trySeek = () => {
+                try { tempVideo.currentTime = targetTime } catch (_) {}
+            }
+            if (tempVideo.readyState >= 2) {
+                trySeek()
+            } else {
+                tempVideo.addEventListener('loadeddata', trySeek, { once: true })
+            }
+        }
+
+        tempVideo.addEventListener('loadedmetadata', onLoadedMetadata)
+        tempVideo.addEventListener('seeked', drawFrame)
+
+        return () => {
+            cancelled = true
+            tempVideo.removeEventListener('loadedmetadata', onLoadedMetadata)
+            tempVideo.removeEventListener('seeked', drawFrame)
+            cleanup()
+        }
+    }, [hasVideo, product.video])
 
     const addToCartHandler = () => {
         dispatch(addToCart({ productId }))
@@ -67,14 +159,54 @@ const ProductDetails = ({ product }) => {
             <div className="flex max-sm:flex-col-reverse gap-3">
                 <div className="flex sm:flex-col gap-3">
                     {product.images.map((image, index) => (
-                        <div key={index} onClick={() => setMainImage(product.images[index])} className="bg-slate-100 flex items-center justify-center size-26 rounded-lg group cursor-pointer">
+                        <div key={index} onClick={() => handleImageClick(index)} className="bg-slate-100 flex items-center justify-center size-26 rounded-lg group cursor-pointer">
                             <Image src={image} className="group-hover:scale-103 group-active:scale-95 transition" alt="" width={45} height={45} />
                         </div>
                     ))}
+                    {hasVideo && (
+                        <div
+                            onClick={() => handleImageClick(product.images.length)}
+                            className="bg-slate-100 flex items-center justify-center size-26 rounded-lg group cursor-pointer relative overflow-hidden"
+                        >
+                            {/* Preview image as background */}
+                            {videoPreview && (
+                                <Image
+                                    src={videoPreview}
+                                    alt="Video preview"
+                                    fill
+                                    className="object-cover absolute inset-0 z-0"
+                                    style={{ pointerEvents: 'none' }}
+                                />
+                            )}
+                      
+                            <svg className="w-8 h-8 text-white z-10 relative drop-shadow-lg group-hover:text-gray-200 transition" fill="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="12" fill="rgba(0,0,0,0.45)" />
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </div>
+                    )}
                 </div>
-                <div className="flex justify-center items-center h-100 sm:size-113 bg-slate-100 rounded-lg ">
-                    <Image src={mainImage} alt="" width={250} height={250} />
+                <div className="flex justify-center items-center h-100 sm:size-113 bg-slate-100 rounded-lg relative overflow-hidden">
+                    {isVideoMode && hasVideo ? (
+                        <video 
+                            ref={videoRef}
+                            className={`w-full h-full rounded-lg ${isFullscreen ? 'object-contain' : 'object-cover'}`}
+                            controls
+                            autoPlay
+                            playsInline
+                            controlsList="nodownload"
+                            poster={posterUrl || videoPreview}
+                            onContextMenu={(e) => e.preventDefault()}
+                        >
+                            <source src={product.video} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) : (
+                        <Image src={mainImage} alt="" width={250} height={250} />
+                    )}
                 </div>
+                
+              
             </div>
             <div className="flex-1">
                 <StockBadge status={product.inStock} />              
@@ -144,9 +276,8 @@ const ProductDetails = ({ product }) => {
                         </li>
                     </ul>
                 </div>
-                   <div className="flex items-center my-4 gap-2 text-2xl font-semibold text-slate-800">
-                    <p> {currency}{product.price} </p>
-                    <p className="text-lg pt-1 text-slate-500 line-through">{currency}{product.mrp}</p>
+                <div className="flex items-center my-4 gap-2">
+                    <Price value={product.price} mrp={product.mrp} className="text-2xl" />
                 </div>
                 <div className="flex items-center gap-2 text-slate-500">
                     <TagIcon size={14} />
@@ -193,7 +324,7 @@ const ProductDetails = ({ product }) => {
                   <p className="text-slate-700 font-medium group-hover:text-slate-900 transition">
                     {item.name}
                   </p>
-                  <p className="text-sm text-slate-500">${item.price}</p>
+                  <Price value={item.price} className="text-sm text-slate-500" />
                 </div>
 
               </div>

@@ -11,7 +11,7 @@ const StoreLayout = ({ children }) => {
     const user = useSelector(state => state.auth.user)
     console.log(user)
     return (
-        user?.role === 'user' ? (
+        user?.role === 'user' || user?.role === 'seller' ? (
         <div className="flex flex-col h-screen">
 
             <div className="flex flex-1 items-start h-full overflow-y-scroll no-scrollbar">

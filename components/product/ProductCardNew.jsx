@@ -2,9 +2,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import Price from '@/components/shared/Price'
 
 const ProductCardNew = ({ product }) => {
-    const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
+    
     const images = product.images || []
 
     return (
@@ -40,9 +41,7 @@ const ProductCardNew = ({ product }) => {
 
                         {/* Price - Purple/blue color, right aligned */}
                         <div className='flex justify-end'>
-                            <span className='text-lg font-bold text-purple-600'>
-                                {currency}{product.price}
-                            </span>
+                            <Price value={product.price} className='text-lg font-bold text-purple-600' />
                         </div>
                     </div>
                 </div>

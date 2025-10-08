@@ -1,20 +1,12 @@
+import Image from "next/image"
 import LoginForm from "./LoginForm"
 
 export default function Login() {
   return (
     <div className="flex flex-col min-h-screen items-center justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Your Company"
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-          className="mx-auto h-10 w-auto dark:hidden"
-        />
-        <img
-          alt="Your Company"
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-          className="mx-auto h-10 w-auto not-dark:hidden"
-        />
-        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm mx-auto flex flex-col items-center justify-center">
+        <Image src={'./logo2.jpg'} width={140} height={140} alt="GoCart" className="rounded-full" />
+        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900 ">
           Sign in to your account
         </h2>
       </div>
@@ -27,6 +19,8 @@ export default function Login() {
           <div className="text-xs text-gray-600 space-y-1">
             <p><strong>Admin:</strong> admin@store.test / password123</p>
             <p><strong>Store Owner:</strong> owner@example.com / password123</p>
+            <p><strong>Store Seller:</strong> seller2@store.com / password123</p>
+
             <p><strong>Test Users:</strong> user1@test.com to user20@test.com / password123</p>
           </div>
         </div>

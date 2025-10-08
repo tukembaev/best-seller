@@ -272,7 +272,7 @@ export default function EditProductClient({ product, brands: initialBrands }) {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <label htmlFor="" className="flex flex-col gap-2">
-                    Actual Price ($)
+                    Actual Price (сом)
                     <input 
                         type="number" 
                         name="mrp" 
@@ -284,7 +284,7 @@ export default function EditProductClient({ product, brands: initialBrands }) {
                     />
                 </label>
                 <label htmlFor="" className="flex flex-col gap-2">
-                    Offer Price ($)
+                    Offer Price (сом)
                     <input 
                         type="number" 
                         name="price" 

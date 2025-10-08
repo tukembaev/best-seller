@@ -3,6 +3,7 @@ import OrderSummary from "@/components/orders/OrderSummary";
 import Counter from "@/components/shared/Counter";
 
 import PageTitle from "@/components/shared/PageTitle";
+import Price from "@/components/shared/Price";
 import { deleteItemFromCart } from "@/lib/features/cart/cartSlice";
 import { Trash2Icon } from "lucide-react";
 import Image from "next/image";
@@ -12,7 +13,7 @@ import { setProduct } from "@/lib/features/product/productSlice";
 
 export default function Cart() {
 
-    const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$';
+    
     
     const { cartItems } = useSelector(state => state.cart);
     const products = useSelector(state => state.product.list);
@@ -97,13 +98,13 @@ export default function Cart() {
                                             <div>
                                                 <p className="max-sm:text-sm">{item.name}</p>
                                                 <p className="text-xs text-slate-500">{item.category}</p>
-                                                <p>{currency}{item.price}</p>
+                                                <p><Price value={item.price} /></p>
                                             </div>
                                         </td>
                                         <td className="text-center">
                                             <Counter productId={item.id} />
                                         </td>
-                                        <td className="text-center">{currency}{(item.price * item.quantity).toLocaleString()}</td>
+                                        <td className="text-center"><Price value={item.price * item.quantity} /></td>
                                         <td className="text-center max-md:hidden">
                                             <button onClick={() => handleDeleteItemFromCart(item.id)} className=" text-red-500 hover:bg-red-50 p-2.5 rounded-full active:scale-95 transition-all">
                                                 <Trash2Icon size={18} />

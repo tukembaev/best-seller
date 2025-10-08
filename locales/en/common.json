@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "About",
+    "store": "Admin Panel",
+    "contact": "Contact",
+    "searchPlaceholder": "Search products...",
+    "cart": "Cart",
+    "profile": "Profile",
+    "orders": "My Orders",
+    "logout": "Logout",
+    "login": "Login"
+  },
+  "footer": {
+    "products": "PRODUCTS",
+    "earphones": "Earphones",
+    "headphones": "Headphones",
+    "smartphones": "Smartphones",
+    "laptops": "Laptops",
+    "website": "WEBSITE",
+    "privacy": "Privacy Policy",
+    "plusMember": "Become Plus Member",
+    "createStore": "Create Your Store",
+    "contact": "CONTACT",
+    "description": "Welcome to gocart, your ultimate destination for the latest and smartest gadgets. From smartphones and smartwatches to essential accessories, we bring you the best in innovation — all in one place.",
+    "copyright": "Copyright 2025 © gocart All Right Reserved."
+  },
+  "hero": {
+    "badge": "NEWS",
+    "freeShipping": "Free Shipping on Orders Above $50!",
+    "headline": "Watches you'll love. Prices you'll trust.",
+    "startsFrom": "Starts from",
+    "learnMore": "LEARN MORE",
+    "bestProducts": "Best products",
+    "discounts": "20% discounts",
+    "viewMore": "View more"
+  },
+  "newsletter": {
+    "title": "Join Newsletter",
+    "subtitle": "Subscribe to get exclusive deals, new arrivals, and insider updates delivered straight to your inbox every week.",
+    "emailPlaceholder": "Enter your email address",
+    "subscribe": "Get Updates"
+  }
+}
+
