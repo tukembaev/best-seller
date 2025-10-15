@@ -45,7 +45,14 @@ export default function OrderDetails({ order }) {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Order #{order.orderNumber}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Order #{order.orderNumber}
+          {order.seller?.name && (
+            <span className="text-lg font-normal text-gray-600 ml-2">
+              ({order.seller.name})
+            </span>
+          )}
+        </h1>
       </div>
 
       <div className="space-y-6">

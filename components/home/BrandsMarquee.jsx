@@ -3,14 +3,16 @@ import { assets, categories } from "@/assets/assets";
 import Image from "next/image";
 import Title from "../shared/Title";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
  
 const BrandsMarquee = () => {
+  const t = useTranslations('common.brands');
   
   return (
     <div className="overflow-hidden w-full relative max-w-7xl mx-auto select-none group sm:my-20">
       <Title
-        title={'Our Brands'}
-        description={'All brands in our store'}
+        title={t('title')}
+        description={t('description')}
         href="/shop"
       />
 

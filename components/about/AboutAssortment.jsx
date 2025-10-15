@@ -1,15 +1,18 @@
 // components/about/AboutAssortment.tsx
 import { assets } from '@/assets/assets';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 
 export default function AboutAssortment() {
+  const t = useTranslations('common.about.assortment');
+
   return (
     <section className="px-6 my-20 max-w-6xl mx-auto">
       <div className="flex flex-col items-center">
-        <h2 className="text-2xl font-semibold text-slate-800">Wide Assortment of Watches</h2>
+        <h2 className="text-2xl font-semibold text-slate-800">{t('title')}</h2>
         <p className="max-w-lg text-center text-sm text-slate-600 mt-2">
-          Explore our extensive collection of luxury and everyday timepieces.
+          {t('description')}
         </p>
       </div>
       <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -22,7 +25,7 @@ export default function AboutAssortment() {
             className="rounded-lg mb-4 w-full max-w-md"
           />
           <p className="text-slate-600 text-sm leading-relaxed">
-            Watch Haven is a premier store specializing in high-quality watches. Our wide assortment includes everything from classic mechanical masterpieces to modern smartwatches, ensuring there's a perfect timepiece for every style, occasion, and budget. Whether you're seeking elegance for formal events or durability for daily wear, our curated selection features renowned brands and unique designs that stand the test of time.
+            {t('text1')}
           </p>
         </div>
         <div className="flex flex-col items-center md:items-end">
@@ -34,7 +37,7 @@ export default function AboutAssortment() {
             className="rounded-lg mb-4 w-full max-w-md"
           />
           <p className="text-slate-600 text-sm leading-relaxed">
-            With over 500 models in stock, we cater to watch enthusiasts and casual buyers alike. From vintage-inspired pieces to cutting-edge innovations, our assortment guarantees variety and excellence.
+            {t('text2')}
           </p>
         </div>
       </div>

@@ -5,11 +5,13 @@ import ProductCard from "@/components/product/ProductCard"
 import { MoveLeftIcon, Search } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import CustomSelect from "@/components/shared/CustomSelect"
+import { useTranslations } from 'next-intl'
 
 export function ShopClient({ products, brands }) {
   const searchParams = useSearchParams()
   const search = searchParams.get('search')
   const router = useRouter()
+  const t = useTranslations('common.shop')
 
   const [sortBy, setSortBy] = useState("default")
   const [brand, setBrand] = useState("all")
@@ -47,8 +49,8 @@ export function ShopClient({ products, brands }) {
           onClick={() => router.push('/shop')}
           className="text-2xl text-slate-500 my-6 flex items-center gap-2 cursor-pointer"
         >
-          {search && <MoveLeftIcon size={20} />} All{" "}
-          <span className="text-slate-700 font-medium">Products</span>
+          {search && <MoveLeftIcon size={20} />} {t('title')}{" "}
+          <span className="text-slate-700 font-medium">{t('titleBold')}</span>
         </h1>
 
         {/* Controls */}
@@ -61,7 +63,7 @@ export function ShopClient({ products, brands }) {
             <Search size={18} className="text-slate-500" />
             <input
               type="text"
-              placeholder="Search products..."
+              placeholder={t('searchPlaceholder')}
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
               className="w-full bg-transparent outline-none text-sm text-slate-700 "
@@ -74,10 +76,10 @@ export function ShopClient({ products, brands }) {
               value={sortBy}
               onChange={setSortBy}
               options={[
-                { value: "default", label: "Default" },
-                { value: "price-asc", label: "Price: Low → High" },
-                { value: "price-desc", label: "Price: High → Low" },
-                { value: "rating", label: "Rating" },
+                { value: "default", label: t('sortDefault') },
+                { value: "price-asc", label: t('sortPriceAsc') },
+                { value: "price-desc", label: t('sortPriceDesc') },
+                { value: "rating", label: t('sortRating') },
               ]}
               className="w-[160px]"
             />
@@ -86,7 +88,7 @@ export function ShopClient({ products, brands }) {
               value={brand}
               onChange={setBrand}
               options={[
-                { value: "all", label: "All brands" },
+                { value: "all", label: t('allBrands') },
                 ...brands.map(b => ({ value: b.name, label: b.name }))
               ]}
               className="w-[160px]"

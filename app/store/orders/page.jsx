@@ -103,7 +103,7 @@ export default function StoreOrders() {
                     <table className="w-full text-sm text-left text-gray-600">
                         <thead className="bg-gray-50 text-gray-700 text-xs uppercase tracking-wider">
                             <tr>
-                                {["Sr. No.", "Customer", "Total", "Payment", "Coupon", "Status", "Date"].map((heading, i) => (
+                                {["Sr. No.", "Customer", "Total", "Payment", "Coupon", "Status", "Seller", "Date"].map((heading, i) => (
                                     <th key={i} className="px-4 py-3">{heading}</th>
                                 ))}
                             </tr>
@@ -145,6 +145,9 @@ export default function StoreOrders() {
                                             <option value="CANCELLED">{getStatusDisplayName('CANCELLED')}</option>
                                             <option value="RETURNED">{getStatusDisplayName('RETURNED')}</option>
                                         </select>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        {order.seller?.name || "—"}
                                     </td>
                                     <td className="px-4 py-3 text-gray-500">
                                         {new Date(order.createdAt).toLocaleString()}

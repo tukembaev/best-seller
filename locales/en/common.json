@@ -41,6 +41,108 @@
     "subtitle": "Subscribe to get exclusive deals, new arrivals, and insider updates delivered straight to your inbox every week.",
     "emailPlaceholder": "Enter your email address",
     "subscribe": "Get Updates"
+  },
+  "products": {
+    "bestSelling": "Best Selling",
+    "bestSellingDescription": "Showing {count} best selling products",
+    "latestProducts": "Latest Products",
+    "latestProductsDescription": "Showing {count} of latest products"
+  },
+  "brands": {
+    "title": "Our Brands",
+    "description": "All brands in our store"
+  },
+  "shop": {
+    "title": "All",
+    "titleBold": "Products",
+    "searchPlaceholder": "Search products...",
+    "sortDefault": "Default",
+    "sortPriceAsc": "Price: Low → High",
+    "sortPriceDesc": "Price: High → Low",
+    "sortRating": "Rating",
+    "allBrands": "All brands"
+  },
+  "about": {
+    "hero": {
+      "badge": "ABOUT US",
+      "badgeSubtitle": "Discover Our Story",
+      "title": "Timeless Elegance, Crafted for You.",
+      "description": "At Watch Haven, we blend tradition with innovation to bring you exquisite timepieces that tell more than just time—they narrate stories of craftsmanship and passion.",
+      "button": "Explore Our Journey"
+    },
+    "assortment": {
+      "title": "Wide Assortment of Watches",
+      "description": "Explore our extensive collection of luxury and everyday timepieces.",
+      "text1": "Watch Haven is a premier store specializing in high-quality watches. Our wide assortment includes everything from classic mechanical masterpieces to modern smartwatches, ensuring there's a perfect timepiece for every style, occasion, and budget. Whether you're seeking elegance for formal events or durability for daily wear, our curated selection features renowned brands and unique designs that stand the test of time.",
+      "text2": "With over 500 models in stock, we cater to watch enthusiasts and casual buyers alike. From vintage-inspired pieces to cutting-edge innovations, our assortment guarantees variety and excellence."
+    },
+    "services": {
+      "title": "Our Services",
+      "description": "Committed to your satisfaction with premium perks.",
+      "freeShipping": {
+        "title": "Free Shipping",
+        "description": "Enjoy complimentary delivery on all orders over $50, straight to your door with reliable tracking."
+      },
+      "qualityControl": {
+        "title": "Quality Control",
+        "description": "Every watch is meticulously inspected by our experts to ensure flawless performance and authenticity."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Our dedicated team is always available to answer questions and make your shopping seamless."
+      }
+    },
+    "location": {
+      "title": "Our Store Location",
+      "description": "Visit us for an immersive shopping experience.",
+      "text": "Our flagship store is conveniently located in the heart of the city at GUM Shopping Center on the 3rd floor. As you step off the escalator, turn right and you'll find our elegant vitrine showcasing the latest arrivals. We're open daily from 10 AM to 10 PM, ready to assist you in person with expert advice and exclusive in-store offers."
+    }
+  },
+  "contact": {
+    "section": {
+      "title": "Contact Us",
+      "description": "We're here to help you find the perfect timepiece. Whether you have questions about our collection, need sizing advice, or want to inquire about custom orders, our team is ready to assist. Reach out today via social media, call, or message for quick support.",
+      "instagram": "Instagram",
+      "whatsapp": "WhatsApp",
+      "phone": "Phone",
+      "formTitle": "Get in Touch",
+      "formDescription": "Fill out the form below, and we'll get back to you within 24 hours."
+    },
+    "location": {
+      "title": "Our Location",
+      "subtitle": "Connecting Near and Far",
+      "headquarters": "Headquarters:",
+      "address": "GUM Shopping Center, 3rd Floor",
+      "directions": "From the escalator, turn right to our elegant vitrine.",
+      "city": "Moscow, Russia",
+      "openIn2GIS": "Open in 2GIS"
+    },
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Your email",
+      "phone": "Phone number",
+      "message": "How can we help?",
+      "submit": "Send to WhatsApp",
+      "disclaimer": "When you click the button, WhatsApp will open with a ready message for the number +996 770 220 555",
+      "whatsappMessage": "New message from website:\n\n👤 Name: {firstName} {lastName}\n📧 Email: {email}\n📞 Phone: {phone}\n\n💬 Message:\n{message}\n\n---\nSent via contact form"
+    }
+  },
+  "specs": {
+    "title": "Our Specifications",
+    "description": "We offer top-tier service and convenience to ensure your shopping experience is smooth, secure and completely hassle-free.",
+    "freeShipping": {
+      "title": "Free Shipping",
+      "description": "Enjoy fast, free delivery on every order no conditions, just reliable doorstep."
+    },
+    "easyReturn": {
+      "title": "7 Days easy Return",
+      "description": "Change your mind? No worries. Return any item within 7 days."
+    },
+    "support": {
+      "title": "24/7 Customer Support",
+      "description": "We're here for you. Get expert help with our customer support."
+    }
   }
 }
 

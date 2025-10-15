@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "eslint": "^9.32.0",
     "prisma": "^5.20.0",
     "tailwindcss": "^4"
   },

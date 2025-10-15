@@ -5,6 +5,26 @@ import { revalidatePath } from "next/cache"
 import path from "path"
 import { promises as fs } from "fs"
 
+// Получение всех товаров
+export async function getProducts() {
+  try {
+    const products = await prisma.product.findMany({
+      include: {
+        brand: true
+      },
+      orderBy: [
+        { inStock: 'desc' },
+        { createdAt: 'desc' }
+      ]
+    })
+
+    return { success: true, products }
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    return { success: false, error: error.message }
+  }
+}
+
 export async function createProduct(formData) {
   try {
     // Нормализация ключей: поддержка префиксов вида "1_" (например, 1_name, 1_image1)
@@ -251,7 +271,7 @@ export async function updateProductFull(formData) {
     const category = formData.get('category')
     const stock = parseInt(formData.get('stock')) || 0
     const brandId = formData.get('brandId') && formData.get('brandId').trim() !== '' ? formData.get('brandId') : null
-    
+
     // Watch characteristics as individual fields
     const collection = formData.get('collection') || null
     const mechanism = formData.get('mechanism') || null
@@ -308,7 +328,7 @@ export async function updateProductFull(formData) {
         return { success: false, error: 'Selected brand does not exist' }
       }
     }
-    
+
     const product = await prisma.product.update({
       where: { id: productId },
       data: {
@@ -336,6 +356,226 @@ export async function updateProductFull(formData) {
     return { success: true, product }
   } catch (error) {
     console.error('Error updating product:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+// Регистрация продажи товаров (множественные товары)
+export async function registerSale(sellerId, items) {
+  try {
+    // items = [{ productId, quantity, price }, ...]
+    
+    // Проверяем наличие всех товаров
+    for (const item of items) {
+      const product = await prisma.product.findUnique({
+        where: { id: item.productId }
+      })
+
+      if (!product) {
+        return { success: false, error: `Product ${item.productId} not found` }
+      }
+
+      if (product.stock < item.quantity) {
+        return { success: false, error: `Insufficient stock for ${product.name}` }
+      }
+    }
+
+    // Вычисляем общую сумму
+    const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+
+    // Создаем продажу в транзакции
+    const sale = await prisma.$transaction(async (tx) => {
+      // Создаем запись о продаже
+      const newSale = await tx.sale.create({
+        data: {
+          sellerId,
+          total,
+          saleItems: {
+            create: items.map(item => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              price: item.price
+            }))
+          }
+        },
+        include: {
+          saleItems: {
+            include: {
+              product: true
+            }
+          }
+        }
+      })
+
+      // Уменьшаем количество товара для каждого проданного товара
+      for (const item of items) {
+        const product = await tx.product.findUnique({
+          where: { id: item.productId }
+        })
+
+        await tx.product.update({
+          where: { id: item.productId },
+          data: {
+            stock: product.stock - item.quantity,
+            inStock: product.stock - item.quantity > 0
+          }
+        })
+      }
+
+      return newSale
+    })
+
+    revalidatePath('/store/sell-product')
+    revalidatePath('/store/statistics')
+    return { success: true, sale }
+  } catch (error) {
+    console.error('Error registering sale:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+// Получение товаров для продажи с фильтрацией
+export async function getProductsForSale(searchQuery = '', inStockOnly = true) {
+  try {
+    const where = {}
+
+    if (searchQuery) {
+      where.OR = [
+        { name: { contains: searchQuery, mode: 'insensitive' } },
+        { category: { contains: searchQuery, mode: 'insensitive' } },
+        { brand: { name: { contains: searchQuery, mode: 'insensitive' } } }
+      ]
+    }
+
+    if (inStockOnly) {
+      where.inStock = true
+    }
+
+    const products = await prisma.product.findMany({
+      where,
+      include: {
+        brand: true
+      },
+      orderBy: [
+        { inStock: 'desc' },
+        { name: 'asc' }
+      ]
+    })
+
+    return { success: true, products }
+  } catch (error) {
+    console.error('Error fetching products for sale:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+// Обновление статуса товара (в пути, доставлен и т.д.)
+export async function updateProductStatus(productId, status) {
+  try {
+    const validStatuses = ['available', 'in_transit', 'delivered', 'out_of_stock']
+    if (!validStatuses.includes(status)) {
+      return { success: false, error: 'Invalid status' }
+    }
+
+    const updateData = {}
+    switch (status) {
+      case 'available':
+        updateData.inStock = true
+        break
+      case 'in_transit':
+        updateData.inStock = false
+        // Можно добавить поле transitStatus или использовать существующие поля
+        break
+      case 'delivered':
+        updateData.inStock = true
+        break
+      case 'out_of_stock':
+        updateData.inStock = false
+        break
+    }
+
+    const updatedProduct = await prisma.product.update({
+      where: { id: productId },
+      data: updateData
+    })
+
+    revalidatePath('/store/sell-product')
+    revalidatePath('/store/manage-product')
+    return { success: true, product: updatedProduct }
+  } catch (error) {
+    console.error('Error updating product status:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+// Получение товаров с определенным статусом для управления
+export async function getProductsByStatus(status) {
+  try {
+    const where = {}
+
+    switch (status) {
+      case 'in_stock':
+        where.inStock = true
+        break
+      case 'out_of_stock':
+        where.inStock = false
+        break
+      case 'all':
+      default:
+        // Не добавляем фильтр, получаем все товары
+        break
+    }
+
+    const products = await prisma.product.findMany({
+      where,
+      include: {
+        brand: true
+      },
+      orderBy: [
+        { inStock: 'desc' },
+        { updatedAt: 'desc' }
+      ]
+    })
+
+    return { success: true, products }
+  } catch (error) {
+    console.error('Error fetching products by status:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+// Получение детальной информации о продаже
+export async function getSaleDetails(saleId) {
+  try {
+    const sale = await prisma.sale.findUnique({
+      where: { id: saleId },
+      include: {
+        seller: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        },
+        saleItems: {
+          include: {
+            product: {
+              include: {
+                brand: true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    if (!sale) {
+      return { success: false, error: 'Sale not found' }
+    }
+
+    return { success: true, sale }
+  } catch (error) {
+    console.error('Error fetching sale details:', error)
     return { success: false, error: error.message }
   }
 }

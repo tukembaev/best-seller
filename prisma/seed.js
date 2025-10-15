@@ -61,18 +61,28 @@ function getNotesForStatus(status) {
   return notes[status]
 }
 
+// Функция для генерации случайного рейтинга от 4.0 до 5.0
+function generateRandomRating() {
+  return Math.round((Math.random() * 1 + 4) * 10) / 10 // От 4.0 до 5.0 с шагом 0.1
+}
+
 async function main() {
-  // Очистка таблиц
+  // Очистка таблиц в правильном порядке
   await prisma.orderTracking.deleteMany()
   await prisma.orderItem.deleteMany()
+  await prisma.saleItem.deleteMany()
+  await prisma.sale.deleteMany()
   await prisma.order.deleteMany()
   await prisma.rating.deleteMany()
+  await prisma.productTemplate.deleteMany()
   await prisma.product.deleteMany()
   await prisma.brand.deleteMany()
   await prisma.store.deleteMany()
   await prisma.address.deleteMany()
   await prisma.user.deleteMany()
   await prisma.coupon.deleteMany()
+
+  console.log("🧹 Database cleaned")
 
   // Rolex
   await prisma.brand.create({
@@ -92,15 +102,14 @@ async function main() {
             video: "/IMG_6581.MP4",
             category: "luxury",
             stock: 5,
-            spec: {
-              collection: "Submariner",
-              mechanism: "Automatic",
-              gender: "Unisex",
-              caseSize: "40mm",
-              caseMaterial: "Stainless Steel",
-              strapMaterial: "Oystersteel",
-              waterResistance: "300m",
-            },
+            rating: generateRandomRating(),
+            collection: "Submariner",
+            mechanism: "Automatic",
+            gender: "Unisex",
+            caseSize: "40mm",
+            caseMaterial: "Stainless Steel",
+            strapMaterial: "Oystersteel",
+            waterResistance: "300m",
           },
           {
             name: "Rolex Daytona",
@@ -111,15 +120,14 @@ async function main() {
             video: "/IMG_6581.MP4",
             category: "luxury",
             stock: 3,
-            spec: {
-              collection: "Daytona",
-              mechanism: "Automatic",
-              gender: "Men",
-              caseSize: "40mm",
-              caseMaterial: "Stainless Steel",
-              strapMaterial: "Oysterflex",
-              waterResistance: "100m",
-            },
+            rating: generateRandomRating(),
+            collection: "Daytona",
+            mechanism: "Automatic",
+            gender: "Men",
+            caseSize: "40mm",
+            caseMaterial: "Stainless Steel",
+            strapMaterial: "Oysterflex",
+            waterResistance: "100m",
           },
         ],
       },
@@ -144,15 +152,14 @@ async function main() {
             video: "/IMG_6581.MP4",
             category: "luxury",
             stock: 8,
-            spec: {
-              collection: "Speedmaster",
-              mechanism: "Manual Winding",
-              gender: "Men",
-              caseSize: "42mm",
-              caseMaterial: "Stainless Steel",
-              strapMaterial: "Leather",
-              waterResistance: "50m",
-            },
+            rating: generateRandomRating(),
+            collection: "Speedmaster",
+            mechanism: "Manual Winding",
+            gender: "Men",
+            caseSize: "42mm",
+            caseMaterial: "Stainless Steel",
+            strapMaterial: "Leather",
+            waterResistance: "50m",
           },
           {
             name: "Omega Seamaster",
@@ -163,15 +170,14 @@ async function main() {
             video: "/IMG_6581.MP4",
             category: "luxury",
             stock: 6,
-            spec: {
-              collection: "Seamaster",
-              mechanism: "Automatic",
-              gender: "Unisex",
-              caseSize: "41mm",
-              caseMaterial: "Stainless Steel",
-              strapMaterial: "Rubber",
-              waterResistance: "300m",
-            },
+            rating: generateRandomRating(),
+            collection: "Seamaster",
+            mechanism: "Automatic",
+            gender: "Unisex",
+            caseSize: "41mm",
+            caseMaterial: "Stainless Steel",
+            strapMaterial: "Rubber",
+            waterResistance: "300m",
           },
         ],
       },
@@ -196,15 +202,14 @@ async function main() {
             video: "/IMG_6581.MP4",
             category: "mid-range",
             stock: 15,
-            spec: {
-              collection: "5 Sports",
-              mechanism: "Automatic",
-              gender: "Men",
-              caseSize: "42.5mm",
-              caseMaterial: "Stainless Steel",
-              strapMaterial: "Fabric",
-              waterResistance: "100m",
-            },
+            rating: generateRandomRating(),
+            collection: "5 Sports",
+            mechanism: "Automatic",
+            gender: "Men",
+            caseSize: "42.5mm",
+            caseMaterial: "Stainless Steel",
+            strapMaterial: "Fabric",
+            waterResistance: "100m",
           },
           {
             name: "Seiko Prospex Diver",
@@ -215,15 +220,14 @@ async function main() {
             video: "/IMG_6581.MP4",
             category: "mid-range",
             stock: 12,
-            spec: {
-              collection: "Prospex",
-              mechanism: "Automatic",
-              gender: "Unisex",
-              caseSize: "44mm",
-              caseMaterial: "Stainless Steel",
-              strapMaterial: "Silicone",
-              waterResistance: "200m",
-            },
+            rating: generateRandomRating(),
+            collection: "Prospex",
+            mechanism: "Automatic",
+            gender: "Unisex",
+            caseSize: "44mm",
+            caseMaterial: "Stainless Steel",
+            strapMaterial: "Silicone",
+            waterResistance: "200m",
           },
         ],
       },
@@ -248,15 +252,14 @@ async function main() {
             video: "/IMG_6581.MP4",
             category: "budget",
             stock: 25,
-            spec: {
-              collection: "G-Shock",
-              mechanism: "Quartz",
-              gender: "Unisex",
-              caseSize: "48.9mm",
-              caseMaterial: "Resin",
-              strapMaterial: "Resin",
-              waterResistance: "200m",
-            },
+            rating: generateRandomRating(),
+            collection: "G-Shock",
+            mechanism: "Quartz",
+            gender: "Unisex",
+            caseSize: "48.9mm",
+            caseMaterial: "Resin",
+            strapMaterial: "Resin",
+            waterResistance: "200m",
           },
           {
             name: "Casio Edifice",
@@ -267,20 +270,21 @@ async function main() {
             video: "/IMG_6581.MP4",
             category: "budget",
             stock: 18,
-            spec: {
-              collection: "Edifice",
-              mechanism: "Quartz",
-              gender: "Men",
-              caseSize: "44mm",
-              caseMaterial: "Stainless Steel",
-              strapMaterial: "Leather",
-              waterResistance: "100m",
-            },
+            rating: generateRandomRating(),
+            collection: "Edifice",
+            mechanism: "Quartz",
+            gender: "Men",
+            caseSize: "44mm",
+            caseMaterial: "Stainless Steel",
+            strapMaterial: "Leather",
+            waterResistance: "100m",
           },
         ],
       },
     },
   })
+
+  console.log("✅ Brands and products created")
 
   // Создаём админа
   const adminPassword = await bcrypt.hash("password123", 10)
@@ -347,6 +351,8 @@ async function main() {
   
   await prisma.user.createMany({ data: sellers })
 
+  console.log("✅ Users and sellers created")
+
   // Создаём магазин
   await prisma.store.create({
     data: {
@@ -364,35 +370,24 @@ async function main() {
   })
 
   // Создаём адреса для пользователей
-  const address1 = await prisma.address.create({
-    data: {
-      id: "addr_1",
-      userId: "user_1",
-      name: "Jane Smith",
-      email: "jane.smith@email.com",
-      street: "456 Maple Avenue",
-      city: "Brooklyn",
-      state: "NY",
-      zip: "11201",
-      country: "United States",
-      phone: "+1 (555) 123-4567",
-    },
-  })
+  const addresses = []
+  for (let i = 1; i <= 10; i++) {
+    addresses.push(await prisma.address.create({
+      data: {
+        userId: `user_${i}`,
+        name: `User ${i} Address`,
+        email: `user${i}@test.com`,
+        street: `${i * 100} Main Street`,
+        city: i % 2 === 0 ? "New York" : "Los Angeles",
+        state: i % 2 === 0 ? "NY" : "CA",
+        zip: `${10000 + i}`,
+        country: "United States",
+        phone: `+1 (555) ${100 + i}-${1000 + i}`,
+      },
+    }))
+  }
 
-  const address2 = await prisma.address.create({
-    data: {
-      id: "addr_2",
-      userId: "user_2",
-      name: "Michael Johnson",
-      email: "michael.j@email.com",
-      street: "789 Oak Street",
-      city: "Los Angeles",
-      state: "CA",
-      zip: "90001",
-      country: "United States",
-      phone: "+1 (555) 987-6543",
-    },
-  })
+  console.log("✅ Addresses created")
 
   // Создаём купоны
   await prisma.coupon.create({
@@ -419,109 +414,172 @@ async function main() {
     },
   })
 
+  console.log("✅ Coupons created")
+
   // Получаем продукты для создания заказов
   const products = await prisma.product.findMany()
 
-  // Создаём 5 образцовых заказов с разными статусами
-  const ordersData = [
-    {
-      id: "order_1",
-      orderNumber: "521459",
-      total: 369.00,
-      status: "DELIVERED",
-      trackingStatus: "DELIVERED",
-      userId: "user_1",
-      addressId: "addr_1",
-      isPaid: true,
-      paymentMethod: "STRIPE",
-      pickupDate: new Date('2024-05-26T12:24:10'),
-      estimatedDrop: "8 Days",
-      returnAvailableTime: "In 7 Days",
-    },
-    {
-      id: "order_2",
-      orderNumber: "521461",
-      total: 7299,
-      status: "IN_TRANSIT",
-      trackingStatus: "IN_TRANSIT",
-      userId: "user_2",
-      addressId: "addr_2",
-      isPaid: true,
-      paymentMethod: "STRIPE",
-      pickupDate: new Date('2024-05-28T10:15:30'),
-      estimatedDrop: "12 Days",
-      returnAvailableTime: "In 10 Days",
-    },
-    {
-      id: "order_3",
-      orderNumber: "521462",
-      total: 1499,
-      status: "ON_SORTING_CENTER",
-      trackingStatus: "ON_SORTING_CENTER",
-      userId: "user_3",
-      addressId: "addr_1",
-      isPaid: false,
-      paymentMethod: "COD",
-      pickupDate: new Date('2024-05-30T14:20:15'),
-      estimatedDrop: "6 Days",
-      returnAvailableTime: "In 5 Days",
-    },
-    {
-      id: "order_4",
-      orderNumber: "521463",
-      total: 9991,
-      status: "ON_THE_WAY",
-      trackingStatus: "ON_THE_WAY",
-      userId: "user_4",
-      addressId: "addr_2",
-      isPaid: true,
-      paymentMethod: "PAYPAL",
-      pickupDate: new Date('2024-06-02T09:45:22'),
-      estimatedDrop: "15 Days",
-      returnAvailableTime: "In 12 Days",
-    },
-    {
-      id: "order_5",
-      orderNumber: "521464",
-      total: 299,
-      status: "ORDER_PLACED",
-      trackingStatus: "ORDER_RECEIVED",
-      userId: "user_5",
-      addressId: "addr_1",
-      isPaid: false,
-      paymentMethod: "COD",
-      estimatedDrop: "4 Days",
-      returnAvailableTime: "In 3 Days",
-    },
-  ]
+  // Создаём заказы с разными статусами
+  const today = new Date()
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
+  const twoDaysAgo = new Date(today)
+  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
+  const threeDaysAgo = new Date(today)
+  threeDaysAgo.setDate(threeDaysAgo.getDate() - 3)
 
-  // Создаём заказы
-  for (const orderData of ordersData) {
-    const order = await prisma.order.create({
+  // 3 непринятых заказа (без sellerId)
+  for (let i = 1; i <= 3; i++) {
+    await prisma.order.create({
       data: {
-        ...orderData,
+        orderNumber: `ORD${100000 + i}`,
+        total: products[i % products.length].price * (i + 1),
+        status: "ORDER_PLACED",
+        trackingStatus: "ORDER_RECEIVED",
+        userId: `user_${i}`,
+        addressId: addresses[i - 1].id,
+        isPaid: false,
+        paymentMethod: "COD",
+        estimatedDrop: "3-5 Days",
+        createdAt: twoDaysAgo,
         orderItems: {
           create: [
             {
-              productId: products[0].id,
-              quantity: 1,
-              price: products[0].price,
-            },
-            {
-              productId: products[1].id,
-              quantity: 2,
-              price: products[1].price,
+              productId: products[i % products.length].id,
+              quantity: i + 1,
+              price: products[i % products.length].price,
             },
           ],
         },
         trackingUpdates: {
-          create: generateTrackingHistory(orderData.trackingStatus),
+          create: [
+            {
+              status: "ORDER_RECEIVED",
+              date: twoDaysAgo,
+              location: "Order Processing Center",
+              notes: "Order received and being processed",
+            },
+          ],
         },
       },
     })
   }
 
-  console.log("✅ Seed completed successfully!")
+  console.log("✅ Unassigned orders created")
+
+  // Заказы, принятые продавцами (с sellerId)
+  for (let i = 1; i <= 5; i++) {
+    const sellerId = `seller_${(i % 5) + 1}`
+    const statuses = ["PROCESSING", "IN_TRANSIT", "ON_THE_WAY", "DELIVERED", "PROCESSING"]
+    const trackingStatuses = ["ORDER_RECEIVED", "IN_TRANSIT", "ON_THE_WAY", "DELIVERED", "ORDER_RECEIVED"]
+
+    await prisma.order.create({
+      data: {
+        orderNumber: `ORD${200000 + i}`,
+        total: products[(i + 3) % products.length].price * (i + 2),
+        status: statuses[i - 1],
+        trackingStatus: trackingStatuses[i - 1],
+        userId: `user_${i + 3}`,
+        sellerId: sellerId,
+        addressId: addresses[(i + 2) % addresses.length].id,
+        isPaid: i % 2 === 0,
+        paymentMethod: i % 2 === 0 ? "STRIPE" : "COD",
+        estimatedDrop: "5-7 Days",
+        createdAt: i === 4 ? yesterday : threeDaysAgo,
+        orderItems: {
+          create: [
+            {
+              productId: products[(i + 3) % products.length].id,
+              quantity: i + 2,
+              price: products[(i + 3) % products.length].price,
+            },
+          ],
+        },
+        trackingUpdates: {
+          create: generateTrackingHistory(trackingStatuses[i - 1]),
+        },
+      },
+    })
+  }
+
+  console.log("✅ Seller orders created")
+
+  // Создаём продажи от продавцов (витрина)
+  for (let i = 1; i <= 10; i++) {
+    const sellerId = `seller_${(i % 5) + 1}`
+    const product1 = products[i % products.length]
+    const product2 = products[(i + 1) % products.length]
+    
+    const items = [
+      {
+        productId: product1.id,
+        quantity: Math.floor(Math.random() * 3) + 1,
+        price: product1.price,
+      },
+    ]
+
+    // Иногда добавляем второй товар
+    if (i % 3 === 0) {
+      items.push({
+        productId: product2.id,
+        quantity: Math.floor(Math.random() * 2) + 1,
+        price: product2.price,
+      })
+    }
+
+    const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+
+    const saleDate = new Date(today)
+    saleDate.setDate(saleDate.getDate() - Math.floor(Math.random() * 7))
+
+    await prisma.sale.create({
+      data: {
+        sellerId: sellerId,
+        total: total,
+        createdAt: saleDate,
+        saleItems: {
+          create: items,
+        },
+      },
+    })
+  }
+
+  console.log("✅ Sales created")
+
+  // Создаём рейтинги для доставленных заказов
+  const deliveredOrders = await prisma.order.findMany({
+    where: { status: "DELIVERED" },
+    include: { orderItems: true }
+  })
+
+  for (const order of deliveredOrders) {
+    for (const item of order.orderItems) {
+      await prisma.rating.create({
+        data: {
+          rating: Math.floor(Math.random() * 2) + 4, // 4 или 5 звезд
+          review: "Great product! Highly recommend.",
+          userId: order.userId,
+          productId: item.productId,
+          orderId: order.id,
+        },
+      })
+    }
+  }
+
+  console.log("✅ Ratings created")
+
+  console.log("\n🎉 Seed completed successfully!")
+  console.log("\n📊 Summary:")
+  console.log("- Products: 8")
+  console.log("- Brands: 4")
+  console.log("- Users: 26 (1 admin, 1 owner, 5 sellers, 20 customers)")
+  console.log("- Unassigned Orders: 3")
+  console.log("- Seller Orders: 5")
+  console.log("- Sales (витрина): 10")
+  console.log("\n🔐 Login credentials:")
+  console.log("Seller: seller1@store.com / password123")
+  console.log("Seller: seller2@store.com / password123")
+  console.log("Admin: admin@store.test / password123")
 }
 
 main()

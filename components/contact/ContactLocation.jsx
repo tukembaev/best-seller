@@ -1,8 +1,11 @@
 // components/contact/ContactLocation.tsx
 import EmbeddedMap from "./EmbeddedMap";
 import React from "react";
+import { useTranslations } from 'next-intl';
 
 export default function ContactLocation() {
+  const t = useTranslations('common.contact.location');
+
   return (
     <section className="px-6 my-20 max-w-6xl mx-auto">
       <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -14,19 +17,19 @@ export default function ContactLocation() {
         {/* Right side: Location Details */}
         <div className="lg:w-1/2 space-y-4">
           <h2 className="text-3xl font-semibold text-slate-800">
-            Our Location
+            {t('title')}
           </h2>
           <h3 className="text-xl font-medium text-slate-800">
-            Connecting Near and Far
+            {t('subtitle')}
           </h3>
           <div className="space-y-2">
             <p className="text-slate-600">
-              <strong>Headquarters:</strong> GUM Shopping Center, 3rd Floor
+              <strong>{t('headquarters')}</strong> {t('address')}
             </p>
             <p className="text-slate-600">
-              From the escalator, turn right to our elegant vitrine.
+              {t('directions')}
             </p>
-            <p className="text-slate-600">Moscow, Russia</p>
+            <p className="text-slate-600">{t('city')}</p>
           </div>
           <a
             href="https://2gis.kg/bishkek/firm/70000001025950204"
@@ -34,7 +37,7 @@ export default function ContactLocation() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm font-medium mt-4 transition-colors"
           >
-            Open in 2GIS
+            {t('openIn2GIS')}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
