@@ -70,38 +70,54 @@ const ProductCard = ({ product }) => {
     return (
         <div className='group max-xl:mx-auto w-full'>
             <Link href={`/product/${product.id}`}>
-                <div className='bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300'>
-                    {/* Image Container */}
-                    <div className='relative bg-gray-50 h-64 sm:h-72 flex items-center justify-center'>
-                        {isVideoMode && hasVideo ? (
-                            <video 
-                                ref={videoRef}
-                                className={`w-full h-full rounded-lg ${isFullscreen ? 'object-contain' : 'object-cover'}`}
-                                controls
-                                autoPlay
-                                
-                                playsInline
-                                poster={videoPreview}
-                            >
-                                <source src={product.video} type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>
-                        ) : images.length > 0 ? (
-                            <Image 
-                                width={500} 
-                                height={500} 
-                                className='max-h-48 sm:max-h-56 w-auto group-hover:scale-105 transition-transform duration-300' 
-                                src={images[currentImageIndex]} 
-                                alt={product.name} 
-                            />
-                        ) : (
-                            <div className='text-gray-400 text-sm'>No image</div>
-                        )}
+                <div className='bg-white relative overflow-hidden'>
+                    {/* Image Container with Brand Background */}
+                    <div className='relative bg-white h-80 sm:h-96 flex items-center justify-center'>
+                        {/* Brand Background Logo */}
+                        <div className='absolute inset-0 flex items-center justify-center opacity-5'>
+                            <div className='text-8xl font-bold text-gray-300 select-none'>
+                                {product.brand?.name?.charAt(0) || 'B'}
+                            </div>
+                        </div>
+                        
+                        {/* Vertical Brand Name */}
+                        <div className='absolute left-4 top-1/2 transform -translate-y-1/2'>
+                            <div className='text-gray-300 text-sm font-light tracking-wider transform -rotate-90 whitespace-nowrap'>
+                                {/* {product.brand?.name || 'BRAND'} */}
+                            </div>
+                        </div>
+
+                        {/* Product Image */}
+                        <div className='relative z-10 flex items-center justify-center'>
+                            {isVideoMode && hasVideo ? (
+                                <video 
+                                    ref={videoRef}
+                                    className={`w-full h-full ${isFullscreen ? 'object-contain' : 'object-cover'}`}
+                                    controls
+                                    autoPlay
+                                    playsInline
+                                    poster={videoPreview}
+                                >
+                                    <source src={product.video} type="video/mp4" />
+                                    Your browser does not support the video tag.
+                                </video>
+                            ) : images.length > 0 ? (
+                                <Image 
+                                    width={400} 
+                                    height={400} 
+                                    className='max-h-64 sm:max-h-80 w-auto group-hover:scale-105 transition-transform duration-500' 
+                                    src={images[currentImageIndex]} 
+                                    alt={product.name} 
+                                />
+                            ) : (
+                                <div className='text-gray-400 text-sm'>No image</div>
+                            )}
+                        </div>
                     </div>
                     
                     {/* Navigation Dots */}
                     {(hasMultipleImages || hasVideo) && (
-                        <div className='flex justify-center space-x-2 py-2'>
+                        <div className='flex justify-center space-x-2 py-3'>
                             {images.map((_, index) => (
                                 <button
                                     key={index}
@@ -112,7 +128,7 @@ const ProductCard = ({ product }) => {
                                     className={`w-2 h-2 rounded-full transition-all duration-200 ${
                                         index === currentImageIndex && !isVideoMode
                                             ? 'bg-gray-800' 
-                                            : 'bg-gray-400 hover:bg-gray-600'
+                                            : 'bg-gray-300 hover:bg-gray-600'
                                     }`}
                                 />
                             ))}
@@ -125,7 +141,7 @@ const ProductCard = ({ product }) => {
                                     className={`w-2 h-2 rounded-full transition-all duration-200 ${
                                         isVideoMode
                                             ? 'bg-gray-800' 
-                                            : 'bg-gray-400 hover:bg-gray-600'
+                                            : 'bg-gray-300 hover:bg-gray-600'
                                     }`}
                                     title="Video"
                                 />
@@ -134,39 +150,24 @@ const ProductCard = ({ product }) => {
                     )}
 
                     {/* Product Info */}
-                    <div className='p-4'>
-                        {/* Brand */}
-                        <div className='text-sm font-medium text-gray-600 mb-1'>
-                            {product.brand?.name || 'Brand'}
+                    <div className='px-6 pb-6'>
+                        {/* Product Name */}
+                        <div className='text-lg font-bold text-gray-900 mb-1 text-center'>
+                            {product.brand?.name}
                         </div>
                         
-                        {/* Product Name */}
-                        <div className='text-sm font-semibold text-gray-900 mb-2 line-clamp-2'>
+                        {/* Model/Description */}
+                        <div className='text-sm text-gray-600 mb-4 text-center'>
                             {product.name}
                         </div>
 
-                        {/* Rating */}
-                        <div className='flex items-center mb-3'>
-                            <div className='flex'>
-                                {Array(5).fill('').map((_, index) => (
-                                    <StarIcon 
-                                        key={index} 
-                                        size={14} 
-                                        className='text-transparent' 
-                                        fill={rating >= index + 1 ? "#FFD700" : "#D1D5DB"} 
-                                    />
-                                ))} 
-                            </div>
-                            <span className='text-xs text-gray-500 ml-1'>({rating})</span>
-                        </div>
-
                         {/* Price */}
-                        <div className='flex items-center space-x-2 mb-3'>
+                        <div className='flex justify-center mb-4'>
                             <Price value={product.price} mrp={product.mrp} />
                         </div>
 
                         {/* Add to Cart Button */}
-                        <div className='flex items-center gap-2'>
+                        <div className='flex items-center justify-center gap-2'>
                             {productInCart > 0 && (
                                 <Counter productId={product.id} />
                             )}
@@ -176,7 +177,7 @@ const ProductCard = ({ product }) => {
                                     e.stopPropagation()
                                     addToCartHandler()
                                 }}
-                                className='flex-1 bg-gray-800 text-white px-4 py-2 text-sm font-medium rounded hover:bg-gray-900 active:scale-95 transition'
+                                className='bg-gray-900 text-white px-6 py-2 text-sm font-medium hover:bg-gray-800 active:scale-95 transition-all duration-200'
                             >
                                 {productInCart > 0 ? 'Added to Cart' : 'Add to Cart'}
                             </button>
