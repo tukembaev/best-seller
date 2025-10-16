@@ -4,7 +4,7 @@ import ContactLocation from '@/components/contact/ContactLocation';
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-900">
       <ContactSection />
       <ContactLocation />
     </div>

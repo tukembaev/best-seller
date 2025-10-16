@@ -9,15 +9,19 @@ const BrandsMarquee = () => {
   const t = useTranslations('common.brands');
   
   return (
-    <div className="py-16 bg-white">
+    <div className="py-16 bg-gray-900/50">
       <div className="container-custom">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-yellow-500 tracking-wider mb-4">PREMIUM BRANDS</h2>
+          <p className="text-gray-400 text-lg">Discover the world's most prestigious watchmakers</p>
+        </div>
 
         <div className="relative mt-2 overflow-hidden">
           {/* Left gradient */}
-          <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent" />
+          <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-gray-900/50 to-transparent" />
           
           {/* Right gradient */}
-          <div className="absolute right-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent" />
+          <div className="absolute right-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-l from-gray-900/50 to-transparent" />
 
           {/* Scrolling brands */}
           <div className="flex min-w-[200%] animate-[marqueeScroll_30s_linear_infinite] hover:[animation-play-state:paused] gap-8">
@@ -28,13 +32,13 @@ const BrandsMarquee = () => {
                   className="flex-shrink-0 flex items-center justify-center transition-transform duration-300 hover:scale-110 group"
                 >
                   <Link href={`/brand/${brand}`} className="block">
-                    <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group-hover:border-blue-200">
+                    <div className="bg-gray-800/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-700 group-hover:border-yellow-500/50 backdrop-blur-sm">
                       <Image
                         src={assets[brand]}
                         alt={brand}
                         height={60}
                         width={120}
-                        className="h-12 w-auto object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                        className="h-12 w-auto object-contain filter brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-300"
                         draggable={false}
                         priority
                       />

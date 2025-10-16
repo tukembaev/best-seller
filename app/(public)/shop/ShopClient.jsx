@@ -47,10 +47,10 @@ export function ShopClient({ products, brands }) {
       <div className="max-w-7xl mx-auto">
         <h1
           onClick={() => router.push('/shop')}
-          className="text-2xl text-slate-500 my-6 flex items-center gap-2 cursor-pointer"
+          className="text-2xl text-gray-400 my-6 flex items-center gap-2 cursor-pointer"
         >
-          {search && <MoveLeftIcon size={20} />} {t('title')}{" "}
-          <span className="text-slate-700 font-medium">{t('titleBold')}</span>
+          {search && <MoveLeftIcon size={20} />} ALL{" "}
+          <span className="text-yellow-500 font-medium">PRODUCTS</span>
         </h1>
 
         {/* Controls */}
@@ -58,15 +58,15 @@ export function ShopClient({ products, brands }) {
           {/* Search */}
           <form
             onSubmit={handleSearch}
-            className="flex items-center w-full sm:w-1/2 gap-2 bg-slate-100 px-4 py-2 rounded-full xl:ml-6"
+            className="flex items-center w-full sm:w-1/2 gap-2 bg-gray-800 px-4 py-2 rounded-lg xl:ml-6 border border-gray-600"
           >
-            <Search size={18} className="text-slate-500" />
+            <Search size={18} className="text-gray-400" />
             <input
               type="text"
               placeholder={t('searchPlaceholder')}
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
-              className="w-full bg-transparent outline-none text-sm text-slate-700 "
+              className="w-full bg-transparent outline-none text-sm text-white placeholder-gray-400"
             />
           </form>
 

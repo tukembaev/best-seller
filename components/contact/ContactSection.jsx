@@ -11,7 +11,7 @@ export default function ContactSection() {
     {
       icon: Instagram,
       titleKey: "instagram",
-      description: "@bestseller_watches",
+      description: "@trewatch_premium",
       accent: '#E4405F'
     },
     {
@@ -24,25 +24,24 @@ export default function ContactSection() {
       icon: Phone,
       titleKey: "phone",
       description: "+996 770 220 555",
-      accent: '#3B82F6'
+      accent: '#FFD700'
     }
   ];
 
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding bg-gray-800">
       <div className="container-custom">
-        <Title
-          title={t('title')}
-          description={t('description')}
-          visibleButton={false}
-        />
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-yellow-500 tracking-wider mb-4">GET IN TOUCH</h2>
+          <p className="text-gray-400 text-lg">Contact us for expert advice on premium timepieces</p>
+        </div>
         
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left side: Contact Details */}
           <div className="space-y-8">
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-gray-900">Get in Touch</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-2xl font-bold text-white">Contact Information</h3>
+              <p className="text-gray-300 leading-relaxed">
                 We're here to help you find the perfect timepiece. Reach out to us through any of these channels for quick support and expert advice.
               </p>
             </div>
@@ -51,7 +50,7 @@ export default function ContactSection() {
               {contactDetails.map((detail, index) => (
                 <div
                   key={index}
-                  className="group flex items-center gap-4 p-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl hover:shadow-lg transition-all duration-300 border border-gray-200"
+                  className="group flex items-center gap-4 p-6 bg-gray-900/50 rounded-2xl hover:shadow-lg transition-all duration-300 border border-gray-700 backdrop-blur-sm"
                 >
                   <div
                     className="w-14 h-14 flex items-center justify-center rounded-xl shadow-lg"
@@ -60,8 +59,8 @@ export default function ContactSection() {
                     <detail.icon className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 text-lg">{t(detail.titleKey)}</h4>
-                    <p className="text-gray-600">{detail.description}</p>
+                    <h4 className="font-semibold text-white text-lg">{t(detail.titleKey)}</h4>
+                    <p className="text-gray-400">{detail.description}</p>
                   </div>
                 </div>
               ))}
@@ -69,11 +68,11 @@ export default function ContactSection() {
           </div>
           
           {/* Right side: Form */}
-          <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-8 shadow-xl border border-gray-200">
+          <div className="bg-gray-900/50 rounded-3xl p-8 shadow-xl border border-gray-700 backdrop-blur-sm">
             <div className="space-y-6">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('formTitle')}</h3>
-                <p className="text-gray-600">{t('formDescription')}</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Send us a Message</h3>
+                <p className="text-gray-400">Fill out the form below and we'll get back to you as soon as possible.</p>
               </div>
               <ContactForm />
             </div>

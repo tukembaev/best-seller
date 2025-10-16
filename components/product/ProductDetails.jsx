@@ -162,12 +162,12 @@ const ProductDetails = ({ product }) => {
     ];
 
     return (
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div className="bg-gray-800 rounded-3xl shadow-2xl overflow-hidden border border-gray-700">
             <div className="grid lg:grid-cols-2 gap-12 p-8">
                 {/* Left Side - Images */}
                 <div className="space-y-6">
                     {/* Main Image */}
-                    <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 h-96 flex items-center justify-center overflow-hidden">
+                    <div className="relative bg-gray-900 rounded-2xl p-8 h-96 flex items-center justify-center overflow-hidden border border-gray-600">
                         {isVideoMode && hasVideo ? (
                             <video 
                                 ref={videoRef}
@@ -194,7 +194,7 @@ const ProductDetails = ({ product }) => {
                         
                         {/* Discount Badge */}
                         {discountPercentage > 0 && (
-                            <div className="absolute top-4 left-4 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+                            <div className="absolute top-4 left-4 bg-yellow-500 text-black text-sm font-bold px-3 py-1 rounded-full shadow-lg">
                                 -{discountPercentage}%
                             </div>
                         )}
@@ -206,8 +206,8 @@ const ProductDetails = ({ product }) => {
                             <div 
                                 key={index} 
                                 onClick={() => handleImageClick(index)} 
-                                className={`flex-shrink-0 w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 border-2 ${
-                                    mainImage === image ? 'border-blue-500' : 'border-transparent hover:border-gray-300'
+                                className={`flex-shrink-0 w-20 h-20 bg-gray-800 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 border-2 ${
+                                    mainImage === image ? 'border-yellow-500' : 'border-transparent hover:border-gray-500'
                                 }`}
                             >
                                 <Image 
@@ -222,8 +222,8 @@ const ProductDetails = ({ product }) => {
                         {hasVideo && (
                             <div
                                 onClick={() => handleImageClick(product.images.length)}
-                                className={`flex-shrink-0 w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 border-2 relative overflow-hidden ${
-                                    isVideoMode ? 'border-blue-500' : 'border-transparent hover:border-gray-300'
+                                className={`flex-shrink-0 w-20 h-20 bg-gray-800 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 border-2 relative overflow-hidden ${
+                                    isVideoMode ? 'border-yellow-500' : 'border-transparent hover:border-gray-500'
                                 }`}
                             >
                                 {videoPreview && (
@@ -256,22 +256,22 @@ const ProductDetails = ({ product }) => {
                                     className={`p-2 rounded-full transition-all duration-200 ${
                                         isLiked 
                                             ? 'bg-red-500 text-white' 
-                                            : 'bg-gray-100 text-gray-600 hover:bg-red-100 hover:text-red-500'
+                                            : 'bg-gray-700 text-gray-400 hover:bg-red-500/20 hover:text-red-500'
                                     }`}
                                 >
                                     <Heart size={20} fill={isLiked ? 'currentColor' : 'none'} />
                                 </button>
-                                <button className="p-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-all duration-200">
+                                <button className="p-2 bg-gray-700 text-gray-400 rounded-full hover:bg-gray-600 hover:text-white transition-all duration-200">
                                     <Share2 size={20} />
                                 </button>
                             </div>
                         </div>
 
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                            <h1 className="text-2xl font-bold text-yellow-500 mb-2">
                                 {product.brand?.name || 'Unknown Brand'}
                             </h1>
-                            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                            <h2 className="text-3xl font-bold text-white mb-4">
                                 {product.name}
                             </h2>
                         </div>
@@ -286,12 +286,12 @@ const ProductDetails = ({ product }) => {
                                         className={`${
                                             averageRating >= index + 1 
                                                 ? 'text-yellow-400 fill-current' 
-                                                : 'text-gray-300'
+                                                : 'text-gray-500'
                                         }`} 
                                     />
                                 ))}
                             </div>
-                            <span className="text-gray-600 font-medium">
+                            <span className="text-gray-400 font-medium">
                                 {averageRating.toFixed(1)} ({product.rating.length} reviews)
                             </span>
                         </div>
@@ -299,9 +299,9 @@ const ProductDetails = ({ product }) => {
 
                     {/* Price */}
                     <div className="space-y-2">
-                        <Price value={product.price} mrp={product.mrp} className="text-4xl font-bold text-gray-900" />
+                        <Price value={product.price} mrp={product.mrp} className="text-4xl font-bold text-white" />
                         {discountPercentage > 0 && (
-                            <div className="flex items-center space-x-2 text-green-600">
+                            <div className="flex items-center space-x-2 text-green-400">
                                 <TagIcon size={16} />
                                 <span className="font-semibold">Save {discountPercentage}% right now</span>
                             </div>
@@ -312,13 +312,13 @@ const ProductDetails = ({ product }) => {
                     <div className="space-y-4">
                         {productInCart > 0 && (
                             <div className="flex items-center space-x-4">
-                                <span className="text-gray-700 font-medium">Quantity:</span>
+                                <span className="text-gray-300 font-medium">Quantity:</span>
                                 <Counter productId={productId} />
                             </div>
                         )}
                         <button 
                             onClick={() => !productInCart ? addToCartHandler() : router.push('/cart')} 
-                            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2"
+                            className="w-full btn-primary text-lg px-8 py-4 flex items-center justify-center space-x-2"
                         >
                             <ShoppingCart size={20} />
                             <span>{!productInCart ? 'Add to Cart' : 'View Cart'}</span>
@@ -328,66 +328,66 @@ const ProductDetails = ({ product }) => {
                     {/* Features */}
                     <div className="grid grid-cols-1 gap-4">
                         {features.map((feature, index) => (
-                            <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
-                                <feature.icon size={20} className={feature.color} />
-                                <span className="text-gray-700 font-medium">{feature.text}</span>
+                            <div key={index} className="flex items-center space-x-3 p-3 bg-gray-700/50 rounded-xl border border-gray-600">
+                                <feature.icon size={20} className="text-yellow-500" />
+                                <span className="text-gray-300 font-medium">{feature.text}</span>
                             </div>
                         ))}
                     </div>
 
                     {/* Specifications */}
-                    <div className="bg-gray-50 rounded-2xl p-6">
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">Specifications</h3>
+                    <div className="bg-gray-700/50 rounded-2xl p-6 border border-gray-600">
+                        <h3 className="text-xl font-bold text-white mb-4">Specifications</h3>
                         <div className="grid grid-cols-1 gap-3">
                             {product.collection && (
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">Collection</span>
-                                    <span className="font-semibold text-gray-900">{product.collection}</span>
+                                <div className="flex justify-between py-2 border-b border-gray-600">
+                                    <span className="text-gray-400">Collection</span>
+                                    <span className="font-semibold text-white">{product.collection}</span>
                                 </div>
                             )}
                             {product.mechanism && (
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">Mechanism</span>
-                                    <span className="font-semibold text-gray-900">{product.mechanism}</span>
+                                <div className="flex justify-between py-2 border-b border-gray-600">
+                                    <span className="text-gray-400">Mechanism</span>
+                                    <span className="font-semibold text-white">{product.mechanism}</span>
                                 </div>
                             )}
                             {product.gender && (
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">Gender</span>
-                                    <span className="font-semibold text-gray-900">{product.gender}</span>
+                                <div className="flex justify-between py-2 border-b border-gray-600">
+                                    <span className="text-gray-400">Gender</span>
+                                    <span className="font-semibold text-white">{product.gender}</span>
                                 </div>
                             )}
                             {product.caseMaterial && (
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">Case Material</span>
-                                    <span className="font-semibold text-gray-900">{product.caseMaterial}</span>
+                                <div className="flex justify-between py-2 border-b border-gray-600">
+                                    <span className="text-gray-400">Case Material</span>
+                                    <span className="font-semibold text-white">{product.caseMaterial}</span>
                                 </div>
                             )}
                             {product.caseSize && (
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">Case Size</span>
-                                    <span className="font-semibold text-gray-900">{product.caseSize}</span>
+                                <div className="flex justify-between py-2 border-b border-gray-600">
+                                    <span className="text-gray-400">Case Size</span>
+                                    <span className="font-semibold text-white">{product.caseSize}</span>
                                 </div>
                             )}
                             {product.strapMaterial && (
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">Strap Material</span>
-                                    <span className="font-semibold text-gray-900">{product.strapMaterial}</span>
+                                <div className="flex justify-between py-2 border-b border-gray-600">
+                                    <span className="text-gray-400">Strap Material</span>
+                                    <span className="font-semibold text-white">{product.strapMaterial}</span>
                                 </div>
                             )}
                             {product.waterResistance && (
-                                <div className="flex justify-between py-2 border-b border-gray-200">
-                                    <span className="text-gray-600">Water Resistance</span>
-                                    <span className="font-semibold text-gray-900">{product.waterResistance}</span>
+                                <div className="flex justify-between py-2 border-b border-gray-600">
+                                    <span className="text-gray-400">Water Resistance</span>
+                                    <span className="font-semibold text-white">{product.waterResistance}</span>
                                 </div>
                             )}
-                            <div className="flex justify-between py-2 border-b border-gray-200">
-                                <span className="text-gray-600">Category</span>
-                                <span className="font-semibold text-gray-900 capitalize">{product.category}</span>
+                            <div className="flex justify-between py-2 border-b border-gray-600">
+                                <span className="text-gray-400">Category</span>
+                                <span className="font-semibold text-white capitalize">{product.category}</span>
                             </div>
                             <div className="flex justify-between py-2">
-                                <span className="text-gray-600">In Stock</span>
-                                <span className="font-semibold text-gray-900">{product.stock} pcs</span>
+                                <span className="text-gray-400">In Stock</span>
+                                <span className="font-semibold text-white">{product.stock} pcs</span>
                             </div>
                         </div>
                     </div>
@@ -395,17 +395,17 @@ const ProductDetails = ({ product }) => {
             </div>
 
             {/* Similar Products */}
-            <div className="border-t border-gray-200 p-8 bg-gray-50">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">You might also like</h3>
+            <div className="border-t border-gray-600 p-8 bg-gray-800/50">
+                <h3 className="text-2xl font-bold text-white mb-6">You might also like</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {mockSimilar.slice(0, 3).map((item) => (
                         <Link
                             key={item.id}
                             href={`/product/${item.id}`}
-                            className="group bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
+                            className="group bg-gray-700/50 rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-600"
                         >
                             <div className="flex items-center space-x-4">
-                                <div className="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
+                                <div className="w-20 h-20 bg-gray-800 rounded-xl overflow-hidden flex-shrink-0">
                                     <Image
                                         src={item.image}
                                         alt={item.name}
@@ -415,10 +415,10 @@ const ProductDetails = ({ product }) => {
                                     />
                                 </div>
                                 <div className="flex-1">
-                                    <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
+                                    <h4 className="font-semibold text-white group-hover:text-yellow-500 transition-colors duration-200">
                                         {item.name}
                                     </h4>
-                                    <Price value={item.price} className="text-lg font-bold text-gray-900" />
+                                    <Price value={item.price} className="text-lg font-bold text-white" />
                                 </div>
                             </div>
                         </Link>

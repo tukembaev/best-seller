@@ -12,18 +12,18 @@ export default async function Product({ params }) {
   if (!product) notFound();
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-900">
       <div className="container-custom py-8">
         {/* Breadcrumbs */}
-        <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-8">
-          <Link href="/" className="flex items-center space-x-1 hover:text-blue-600 transition-colors">
+        <nav className="flex items-center space-x-2 text-sm text-gray-400 mb-8">
+          <Link href="/" className="flex items-center space-x-1 hover:text-yellow-500 transition-colors">
             <Home size={16} />
             <span>Home</span>
           </Link>
           <ChevronRight size={16} />
-          <Link href="/shop" className="hover:text-blue-600 transition-colors">Products</Link>
+          <Link href="/shop" className="hover:text-yellow-500 transition-colors">Products</Link>
           <ChevronRight size={16} />
-          <span className="text-gray-900 font-medium">{product?.category}</span>
+          <span className="text-white font-medium">{product?.category}</span>
         </nav>
 
         {/* Product Details */}

@@ -75,7 +75,7 @@ const ProductCard = ({ product }) => {
             <Link href={`/product/${product.id}`}>
                 <div className='product-card card-hover'>
                     {/* Image Container */}
-                    <div className='relative bg-gradient-to-br from-gray-50 to-gray-100 h-72 flex items-center justify-center overflow-hidden'>
+                    <div className='relative bg-gray-800 h-72 flex items-center justify-center overflow-hidden'>
                         {/* Main Image/Video */}
                         {isVideoMode && hasVideo ? (
                             <video 
@@ -104,17 +104,17 @@ const ProductCard = ({ product }) => {
 
                         {/* Discount Badge */}
                         {discountPercentage > 0 && (
-                            <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            <div className="absolute top-4 left-4 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                                 -{discountPercentage}%
                             </div>
                         )}
 
                         {/* Stock Badge */}
                         <div className="absolute top-4 right-4">
-                            <div className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                            <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
                                 product.inStock 
-                                    ? 'bg-green-100 text-green-700' 
-                                    : 'bg-red-100 text-red-700'
+                                    ? 'bg-green-500/90 text-white' 
+                                    : 'bg-red-500/90 text-white'
                             }`}>
                                 {product.inStock ? 'In Stock' : 'Out of Stock'}
                             </div>
@@ -123,7 +123,7 @@ const ProductCard = ({ product }) => {
                     
                     {/* Navigation Dots */}
                     {(hasMultipleImages || hasVideo) && (
-                        <div className='flex justify-center space-x-2 py-3 bg-gray-50'>
+                        <div className='flex justify-center space-x-2 py-3 bg-gray-800'>
                             {images.map((_, index) => (
                                 <button
                                     key={index}
@@ -133,8 +133,8 @@ const ProductCard = ({ product }) => {
                                     }}
                                     className={`w-2 h-2 rounded-full transition-all duration-200 ${
                                         index === currentImageIndex && !isVideoMode
-                                            ? 'bg-blue-600' 
-                                            : 'bg-gray-300 hover:bg-gray-500'
+                                            ? 'bg-yellow-500' 
+                                            : 'bg-gray-500 hover:bg-gray-400'
                                     }`}
                                 />
                             ))}
@@ -146,8 +146,8 @@ const ProductCard = ({ product }) => {
                                     }}
                                     className={`w-2 h-2 rounded-full transition-all duration-200 ${
                                         isVideoMode
-                                            ? 'bg-blue-600' 
-                                            : 'bg-gray-300 hover:bg-gray-500'
+                                            ? 'bg-yellow-500' 
+                                            : 'bg-gray-500 hover:bg-gray-400'
                                     }`}
                                     title="Video"
                                 />
@@ -158,12 +158,12 @@ const ProductCard = ({ product }) => {
                     {/* Product Info */}
                     <div className='p-6 space-y-4'>
                         {/* Brand */}
-                        <div className='text-sm font-semibold text-blue-600 uppercase tracking-wide'>
+                        <div className='text-sm font-bold text-yellow-500 uppercase tracking-wider'>
                             {product.brand?.name || 'Brand'}
                         </div>
                         
                         {/* Product Name */}
-                        <div className='text-lg font-bold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200'>
+                        <div className='text-lg font-bold text-white line-clamp-2 group-hover:text-yellow-500 transition-colors duration-200'>
                             {product.name}
                         </div>
 
@@ -177,19 +177,19 @@ const ProductCard = ({ product }) => {
                                         className={`${
                                             rating >= index + 1 
                                                 ? 'text-yellow-400 fill-current' 
-                                                : 'text-gray-300'
+                                                : 'text-gray-500'
                                         }`} 
                                     />
                                 ))} 
                             </div>
-                            <span className='text-sm text-gray-500'>({rating})</span>
-                            <span className='text-sm text-gray-400'>•</span>
-                            <span className='text-sm text-gray-500'>{product.rating?.length || 0} reviews</span>
+                            <span className='text-sm text-gray-400'>({rating})</span>
+                            <span className='text-sm text-gray-500'>•</span>
+                            <span className='text-sm text-gray-400'>{product.rating?.length || 0} reviews</span>
                         </div>
 
                         {/* Price */}
                         <div className='flex items-center space-x-3'>
-                            <Price value={product.price} mrp={product.mrp} className="text-xl font-bold text-gray-900" />
+                            <Price value={product.price} mrp={product.mrp} className="text-xl font-bold text-white" />
                         </div>
 
                         {/* Add to Cart Button */}
@@ -203,10 +203,10 @@ const ProductCard = ({ product }) => {
                                     e.stopPropagation()
                                     addToCartHandler()
                                 }}
-                                className={`flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all duration-200 ${
+                                className={`flex-1 py-3 px-4 text-sm font-semibold rounded-lg transition-all duration-200 ${
                                     productInCart > 0
                                         ? 'bg-green-500 text-white hover:bg-green-600'
-                                        : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
+                                        : 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-black hover:from-yellow-600 hover:to-yellow-700'
                                 }`}
                             >
                                 {productInCart > 0 ? 'Added to Cart' : 'Add to Cart'}

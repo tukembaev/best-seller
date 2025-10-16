@@ -54,19 +54,19 @@ const ProductDescription = ({ product }) => {
   }
 
   return (
-    <div className="my-18 text-sm text-slate-600 flex max-lg:flex-col gap-12">
+    <div className="my-18 text-sm text-gray-400 flex max-lg:flex-col gap-12">
       {/* Left side */}
       <div className="flex-1">
         {/* Tabs */}
-        <div className="flex border-b border-slate-200 mb-6 max-w-2xl">
+        <div className="flex border-b border-gray-600 mb-6 max-w-2xl">
           {["Description", "Reviews"].map((tab, index) => (
             <button
               key={index}
               onClick={() => setSelectedTab(tab)}
               className={`px-3 py-2 font-medium ${
                 tab === selectedTab
-                  ? "border-b-[1.5px] border-slate-700 font-semibold"
-                  : "text-slate-400"
+                  ? "border-b-[1.5px] border-yellow-500 font-semibold text-yellow-500"
+                  : "text-gray-400 hover:text-gray-300"
               }`}
             >
               {tab}
@@ -76,7 +76,7 @@ const ProductDescription = ({ product }) => {
 
         {/* Description */}
         {selectedTab === "Description" && (
-          <p className="max-w-xl">{product.description}</p>
+          <p className="max-w-xl text-gray-300 leading-relaxed">{product.description}</p>
         )}
 
         {/* Reviews */}
@@ -101,16 +101,16 @@ const ProductDescription = ({ product }) => {
                           size={18}
                           className="text-transparent mt-0.5"
                           fill={
-                            item.rating >= idx + 1 ? "#00C950" : "#D1D5DB"
+                            item.rating >= idx + 1 ? "#FFD700" : "#4B5563"
                           }
                         />
                       ))}
                   </div>
-                  <p className="text-sm max-w-lg my-4">{item.review}</p>
-                  <p className="font-medium text-slate-800">
+                  <p className="text-sm max-w-lg my-4 text-gray-300">{item.review}</p>
+                  <p className="font-medium text-white">
                     {item.user.name}
                   </p>
-                  <p className="mt-3 font-light">
+                  <p className="mt-3 font-light text-gray-400">
                     {new Date(item.createdAt).toDateString()}
                   </p>
                 </div>
@@ -124,17 +124,17 @@ const ProductDescription = ({ product }) => {
           <Image
             src={product?.brand?.logo || '/assets/gs_logo.jpg'}
             alt=""
-            className="size-11 rounded-full ring ring-slate-400 object-contain"
+            className="size-11 rounded-full ring ring-gray-600 object-contain"
             width={100}
             height={100}
           />
           <div>
-            <p className="font-medium text-slate-600">
+            <p className="font-medium text-gray-400">
               Product by {product.brand.name}
             </p>
             <Link
               href={`/brand/${product.brand.slug}`}
-              className="flex items-center gap-1.5 text-blue-500"
+              className="flex items-center gap-1.5 text-yellow-500 hover:text-yellow-400 transition-colors"
             >
               view store <ArrowRight size={14} />
             </Link>

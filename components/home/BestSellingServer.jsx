@@ -16,14 +16,12 @@ export default function BestSellingServer() {
   const tHero = useTranslations('common.hero')
 
   return (
-    <section className="section-padding bg-gray-50">
+    <section className="section-padding bg-gray-900">
       <div className="container-custom">
-        <Title 
-          title={t('bestSelling')} 
-          description={t('bestSellingDescription', { count: products.length })} 
-          href="/shop" 
-          buttonLabel={tHero('viewMore')} 
-        />
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-yellow-500 tracking-wider mb-4">POPULAR MODELS</h2>
+          <p className="text-gray-400 text-lg">Discover our most sought-after timepieces</p>
+        </div>
         
         <div className="mt-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

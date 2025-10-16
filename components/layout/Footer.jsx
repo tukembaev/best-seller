@@ -48,9 +48,9 @@ const Footer = () => {
     return (
         <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
             {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-30">
+            <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                     backgroundSize: '60px 60px'
                 }}></div>
             </div>
@@ -62,17 +62,17 @@ const Footer = () => {
                         {/* Brand Section */}
                         <div className="lg:col-span-1 space-y-6">
                             <div className="flex items-center space-x-3">
-                                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                                    <span className="text-white font-bold text-xl">B</span>
+                                <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center shadow-lg gold-glow">
+                                    <span className="text-black font-bold text-xl">T</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-2xl font-bold">BestSeller</span>
-                                    <span className="text-sm text-gray-400 -mt-1">Premium Watches</span>
+                                    <span className="text-3xl font-bold text-white tracking-wider">TREWATCH</span>
+                                    <span className="text-sm text-yellow-500 -mt-1 font-medium tracking-widest">PREMIUM TIMEPIECES</span>
                                 </div>
                             </div>
                             
                             <p className="text-gray-300 leading-relaxed max-w-sm">
-                                {t('footer.description')}
+                                Discover the world's most prestigious timepieces. From classic elegance to modern innovation, we bring you the finest watches from renowned brands.
                             </p>
                             
                             {/* Social Links */}
@@ -81,7 +81,7 @@ const Footer = () => {
                                     <Link 
                                         href={item.link} 
                                         key={i} 
-                                        className={`flex items-center justify-center w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-xl transition-all duration-300 text-gray-300 ${item.color} transform hover:scale-110`}
+                                        className={`flex items-center justify-center w-10 h-10 bg-gray-700 hover:bg-yellow-500 rounded-lg transition-all duration-300 text-gray-300 hover:text-black transform hover:scale-110`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -95,7 +95,7 @@ const Footer = () => {
                         <div className="lg:col-span-3 grid md:grid-cols-3 gap-8">
                             {linkSections.map((section, index) => (
                                 <div key={index} className="space-y-6">
-                                    <h3 className="text-lg font-bold text-white border-b border-gray-700 pb-2">
+                                    <h3 className="text-lg font-bold text-yellow-500 border-b border-gray-700 pb-2 tracking-wide">
                                         {section.title}
                                     </h3>
                                     <ul className="space-y-3">
@@ -103,7 +103,7 @@ const Footer = () => {
                                             <li key={i}>
                                                 <Link 
                                                     href={link.path} 
-                                                    className="group flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
+                                                    className="group flex items-center space-x-2 text-gray-300 hover:text-yellow-500 transition-colors duration-200"
                                                 >
                                                     {link.icon && <link.icon size={16} className="text-gray-400" />}
                                                     <span className="group-hover:translate-x-1 transition-transform duration-200">
@@ -123,13 +123,13 @@ const Footer = () => {
                 <div className="border-t border-gray-700 py-8">
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
                         <p className="text-gray-400 text-sm">
-                            {t('footer.copyright')}
+                            © 2024 TREWATCH. All rights reserved. Premium timepieces for discerning collectors.
                         </p>
                         
                         {/* Back to Top Button */}
                         <button 
                             onClick={scrollToTop}
-                            className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                            className="flex items-center space-x-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-6 py-3 rounded-lg font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 gold-glow"
                         >
                             <span>Back to Top</span>
                             <ArrowUp size={16} />
