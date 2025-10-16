@@ -2,7 +2,7 @@
 import { Instagram, Phone, MessageCircle } from 'lucide-react';
 import ContactForm from './ContactForm';
 import { useTranslations } from 'next-intl';
-
+import Title from '../shared/Title';
 
 export default function ContactSection() {
   const t = useTranslations('common.contact.section');
@@ -11,60 +11,72 @@ export default function ContactSection() {
     {
       icon: Instagram,
       titleKey: "instagram",
-      description: "@watchhaven_official",
-      accent: '#05DF72'
+      description: "@bestseller_watches",
+      accent: '#E4405F'
     },
     {
       icon: MessageCircle,
       titleKey: "whatsapp",
-      description: "+7 (495) 123-45-67",
-      accent: '#FF8904'
+      description: "+996 770 220 555",
+      accent: '#25D366'
     },
     {
       icon: Phone,
       titleKey: "phone",
-      description: "+7 (495) 123-45-67",
-      accent: '#A684FF'
+      description: "+996 770 220 555",
+      accent: '#3B82F6'
     }
   ];
 
   return (
-    <section className="px-6 my-20 max-w-6xl mx-auto">
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Left side: Description + Contacts */}
-        <div className="lg:w-1/2 space-y-6">
-          <div>
-            <h2 className="text-3xl font-semibold text-slate-800 mb-4">{t('title')}</h2>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              {t('description')}
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            {contactDetails.map((detail, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition"
-              >
+    <section className="section-padding bg-white">
+      <div className="container-custom">
+        <Title
+          title={t('title')}
+          description={t('description')}
+          visibleButton={false}
+        />
+        
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Left side: Contact Details */}
+          <div className="space-y-8">
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900">Get in Touch</h3>
+              <p className="text-gray-600 leading-relaxed">
+                We're here to help you find the perfect timepiece. Reach out to us through any of these channels for quick support and expert advice.
+              </p>
+            </div>
+            
+            <div className="space-y-4">
+              {contactDetails.map((detail, index) => (
                 <div
-                  className="size-10 flex items-center justify-center rounded-md"
-                  style={{ backgroundColor: detail.accent }}
+                  key={index}
+                  className="group flex items-center gap-4 p-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl hover:shadow-lg transition-all duration-300 border border-gray-200"
                 >
-                  <detail.icon className="w-5 h-5 text-white" />
+                  <div
+                    className="w-14 h-14 flex items-center justify-center rounded-xl shadow-lg"
+                    style={{ backgroundColor: detail.accent }}
+                  >
+                    <detail.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 text-lg">{t(detail.titleKey)}</h4>
+                    <p className="text-gray-600">{detail.description}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-medium text-slate-800">{t(detail.titleKey)}</h3>
-                  <p className="text-sm text-slate-600">{detail.description}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-        {/* Right side: Form */}
-        <div className="lg:w-1/2">
-          <div className="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
-            <h3 className="text-xl font-semibold text-slate-800 mb-4">{t('formTitle')}</h3>
-            <p className="text-sm text-slate-600 mb-6">{t('formDescription')}</p>
-            <ContactForm />
+          
+          {/* Right side: Form */}
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-8 shadow-xl border border-gray-200">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('formTitle')}</h3>
+                <p className="text-gray-600">{t('formDescription')}</p>
+              </div>
+              <ContactForm />
+            </div>
           </div>
         </div>
       </div>

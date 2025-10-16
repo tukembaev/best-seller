@@ -7,7 +7,7 @@ import Loading from "@/components/shared/Loading";
 
 export default function RootPage() {
   return (
-    <div>
+    <div className="min-h-screen">
       <Hero />
       <Suspense fallback={<Loading />}>
         <LatestProductsServer />

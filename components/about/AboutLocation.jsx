@@ -1,33 +1,40 @@
 // components/about/AboutLocation.tsx
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-
+import Title from '../shared/Title';
 
 export default function AboutLocation() {
   const t = useTranslations('common.about.location');
 
   return (
-    <section className="px-6 my-20 max-w-6xl mx-auto">
-      <div className="flex flex-col items-center">
-        <h2 className="text-2xl font-semibold text-slate-800">{t('title')}</h2>
-        <p className="max-w-lg text-center text-sm text-slate-600 mt-2">
-          {t('description')}
-        </p>
-      </div>
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div>
-          <Image
-            src={'https://swisstime-exclusive.kg/wp-content/uploads/2021/12/veter-vremeni-butik.jpg'}
-            alt="Store Interior"
-            width={400}
-            height={300}
-            className="rounded-lg w-full max-w-md mx-auto"
-          />
-        </div>
-        <div className="text-center md:text-left">
-          <p className="text-slate-600 text-sm leading-relaxed">
-            {t('text')}
-          </p>
+    <section className="section-padding bg-gray-50">
+      <div className="container-custom">
+        <Title
+          title={t('title')}
+          description={t('description')}
+          visibleButton={false}
+        />
+        
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="order-2 lg:order-1">
+            <div className="bg-white rounded-2xl p-8 shadow-lg">
+              <p className="text-gray-600 leading-relaxed text-lg">
+                {t('text')}
+              </p>
+            </div>
+          </div>
+          
+          <div className="order-1 lg:order-2">
+            <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 shadow-lg">
+              <Image
+                src={'https://swisstime-exclusive.kg/wp-content/uploads/2021/12/veter-vremeni-butik.jpg'}
+                alt="Store Interior"
+                width={400}
+                height={300}
+                className="w-full h-80 object-cover rounded-xl"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

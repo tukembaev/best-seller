@@ -11,13 +11,23 @@ export default function LatestProductsServer() {
   const tHero = useTranslations('common.hero')
 
   return (
-    <div className='px-6 my-30 max-w-7xl mx-auto'>
-      <Title title={t('latestProducts')} description={t('latestProductsDescription', { count: products.length })} href='/shop' buttonLabel={tHero('viewMore')} />
-      <div className='mt-12 grid gap-6 xl:ml-6 mb-32 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]'>
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+    <section className="section-padding bg-white">
+      <div className="container-custom">
+        <Title 
+          title={t('latestProducts')} 
+          description={t('latestProductsDescription', { count: products.length })} 
+          href="/shop" 
+          buttonLabel={tHero('viewMore')} 
+        />
+        
+        <div className="mt-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
